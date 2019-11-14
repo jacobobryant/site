@@ -102,7 +102,7 @@ I'll now show you the first fundamental of web development: how to generate
 HTML and CSS. We'll create a static landing page. This is a great first project
 because it's pretty simple, and generating HTML + CSS is much nicer in Clojure
 than in any other language. You could even extend this project into a personal
-blog/website if you like.[3]
+blog/website if you like (this website is written with Clojure).
 
 We need to add a library to your project. Create a file `myproject/deps.edn`
 with the following contents:
@@ -254,6 +254,9 @@ page](https://github.com/jacobobryant/clj-landing-page-example) for inspiration
 the `public` directory on any static website host. I use Firebase, but Github
 Pages and Netlify are other popular options.
 
+You can also see [the source for this website](https://github.com/jacobobryant/site)
+for an example of creating a blog with Clojure.
+
 ### The road ahead
 
 I'll write more in the future, but next you should learn about Clojurescript and
@@ -285,6 +288,3 @@ is a simple library I've made that wraps
 [Hiccup](https://github.com/weavejester/hiccup) and
 [Garden](https://github.com/noprompt/garden), allowing you to write inline CSS à la
 [Reagent](https://reagent-project.github.io/).
-
-[3] This website is made with Hugo, but I've found it to be too inflexible.
-Eventually I'd like to do a rewrite with Clojure.
