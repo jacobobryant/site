@@ -8,10 +8,8 @@
             [me.raynes.fs :as fs]
             [clojure.walk :as walk]
             [sc.api :as sc]
-            [clojure.string :as str]
             [commonmark-hiccup.core :as cm]
-            [ring.middleware.resource :refer [wrap-resource]])
-  (:import [org.apache.commons.text StringEscapeUtils]))
+            [ring.middleware.resource :refer [wrap-resource]]))
 
 (defn element= [& xs]
   (apply = (map #(str/replace % #"(\.|#).*" "") xs)))
