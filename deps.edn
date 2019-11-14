@@ -1,0 +1,12 @@
+{:paths ["src" "resources"]
+ :deps
+ {stasis {:mvn/version "2.5.0"}
+  ring/ring-core {:mvn/version "1.7.1"}
+  me.raynes/fs {:mvn/version "1.4.6"}
+  org.apache.commons/commons-text {:mvn/version "1.8"}
+  commonmark-hiccup {:mvn/version "0.1.0"}
+  vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
+  trident/util {:mvn/version "0.1.19"}
+  trident/repl {:mvn/version "0.1.19"}
+  trident/views {:mvn/version "0.1.19"}
+  trident/staticweb {:mvn/version "0.1.19"}}}
