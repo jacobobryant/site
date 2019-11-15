@@ -93,7 +93,7 @@ alt=\"site stats\"></div></noscript>")
            [:div subscribe]
            (tv/gap "5px")
            [:div [:a {:href "https://twitter.com/obryant666"} "Twitter"]]]]
-         (into [:div.col-lg {:style {:max-width "650px"}}] contents)]]
+         (into [:div.col-lg {:style {:max-width "600px"}}] contents)]]
        statcounter
        [:script {:src "/js/prism.js"}]]])))
 
