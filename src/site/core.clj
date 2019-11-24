@@ -7,28 +7,29 @@
             [clojure.string :as str]
             [me.raynes.fs :as fs]
             [clojure.walk :as walk]
+            [site.feed :as feed]
             [sc.api :as sc]
             [commonmark-hiccup.core :as cm]
             [ring.middleware.resource :refer [wrap-resource]]))
+
+(def ^:dynamic *base-url* "http://localhost:8080")
 
 (defn element= [& xs]
   (apply = (map #(str/replace % #"(\.|#).*" "") xs)))
 
 (defn externalize-url [x]
   (if (and (vector? x)
-           (element= :a (first x))
-           (not (str/starts-with? (or (:href (second x)) "") "/")))
-    (assoc-in x [1 :target] "_blank")
+           (element= :a (first x)))
+    (if (str/starts-with? (or (:href (second x)) "") "/")
+      (update-in x [1 :href] #(str *base-url* %))
+      (assoc-in x [1 :target] "_blank"))
     x))
 
 (defn transform [x]
   (walk/postwalk externalize-url x))
 
-(defn format-date [raw-date]
-  (->>
-    raw-date
-    (.parse (new java.text.SimpleDateFormat "yyyy-MM-dd"))
-    (.format (new java.text.SimpleDateFormat "MMMM yyyy"))))
+(defn format-date [date]
+  (.format (new java.text.SimpleDateFormat "MMMM yyyy") date))
 
 (def statcounter
 "<script type=\"text/javascript\">
@@ -100,23 +101,33 @@ alt=\"site stats\"></div></noscript>")
 (defn post? [url]
   (str/starts-with? url "/post/"))
 
+(defn update-some [m k & args]
+  (if (contains? m k)
+    (apply update m k args)
+    m))
+
 (defn parse-md [{:keys [url path section]}]
   (let [text (slurp path :encoding "UTF-8")
         [metadata content] (rest (re-find #"(?s)\+\+\+(.*)\+\+\+(.*)" text))
+        content (delay (cm/markdown->hiccup cm/default-config content))
+        summary (delay (ts/html (first @content)))
+        metadata (->> (str/split metadata #"\n")
+                      (remove (comp empty? str/trim))
+                      (map (fn [s]
+                             (let [[k v] (map str/trim (str/split s #" = "))]
+                               [(keyword k) (read-string v)])))
+                      (into {}))
         {:keys [title date hide-title?] :as metadata}
-        (->> (str/split metadata #"\n")
-             (remove (comp empty? str/trim))
-             (map (fn [s]
-                    (let [[k v] (map str/trim (str/split s #" = "))]
-                      [(keyword k) (read-string v)])))
-             (into {}))]
+        (-> metadata
+            (update-some :date #(.parse (new java.text.SimpleDateFormat "yyyy-MM-dd") %))
+            (assoc :summary summary))]
     (with-meta
       (fn [_]
         (page {:active-section section
                :title title}
               (when-not hide-title? (some->> title (vector :h2)))
               (some->> date format-date (vector :p))
-              (cm/markdown->hiccup cm/default-config content)
+              @content
               (when (post? url)
                 (list
                   [:hr]
@@ -133,7 +144,7 @@ alt=\"site stats\"></div></noscript>")
              [url (parse-md {:url url :path path :section section})])))
     (into {})))
 
-(def home
+(defn home [_]
   (page {:active-section :post
          :description "Opinions on any topic, free of charge."}
         (for [[url post] (reverse (sort-by (comp :date meta second) md-pages))
@@ -142,10 +153,30 @@ alt=\"site stats\"></div></noscript>")
                          (not draft))]
           [:div.mb-2 [:a {:href url} title]])))
 
+(defn atom-feed [_]
+  (feed/atom-feed
+    (let [posts (->> md-pages
+                     (map (fn [[url f]]
+                            (-> (meta f)
+                                (assoc :url url)
+                                (update-some :summary deref))))
+                     (filter (comp post? :url))
+                     (map (fn [x] (update x :url #(str "https://jacobobryant.com" %))))
+                     (sort-by :date)
+                     reverse)]
+      {:posts posts
+       :title "Jacob O'Bryant"
+       :author "Jacob O'Bryant"
+       :email "foo@jacobobryant.com"
+       :base-name "https://jacobobryant.com"
+       :subtitle "Opinions on any topic, free of charge"
+       :updated (:date (first posts))})))
+
 (def pages
   (stasis/merge-page-sources
     {:main {"/" home
-            "/post/" (ts/html [:html [:head [:meta {:http-equiv "Refresh" :content "0; url=/"}]]])}
+            "/post/" (ts/html [:html [:head [:meta {:http-equiv "Refresh" :content "0; url=/"}]]])
+            "/atom.xml" atom-feed}
      :md-pages md-pages}))
 
 (defn wrap-fix-charset [handler]
@@ -162,7 +193,8 @@ alt=\"site stats\"></div></noscript>")
 
 (defn export []
   (u/sh "rsync" "-av" "--delete" "--exclude" "*.md" "resources/public/" "target")
-  (stasis/export-pages pages "target"))
+  (binding [*base-url* "https://jacobobryant.com"]
+    (stasis/export-pages pages "target")))
 
 (comment
 
