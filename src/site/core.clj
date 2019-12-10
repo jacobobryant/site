@@ -203,12 +203,15 @@ alt=\"site stats\"></div></noscript>")
                   :body))]))
     (into {})))
 
+(defn feed-link [feed-name]
+  [:a {:href (local-feed-name feed-name) :target "_blank"} "feed"])
+
 (defn recommendations [_]
   (page
     {:title "Recommendations"
      :active-section :recommendations}
     [:p "This is an auto-generated list of things I like. There's also a "
-     [:a {:href (local-feed-name "main") :target "_blank"} "feed"]
+     (feed-link "main")
      " that includes all the categories."]
     (for [feed-name feed-categories
           :let [{:keys [title items]} (feed feed-name)]]
@@ -216,8 +219,7 @@ alt=\"site stats\"></div></noscript>")
        [:div.d-flex.align-items-baseline
         [:h3 title]
         [:div.flex-grow-1]
-        [:a {:href (local-feed-name feed-name)
-             :target "_blank"} "feed"]]
+        (feed-link feed-name)]
        (for [{:keys [url title summary image]} items]
          [:div.mb-2
           {:style {:white-space "nowrap"
