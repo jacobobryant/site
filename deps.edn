@@ -5,6 +5,8 @@
   me.raynes/fs {:mvn/version "1.4.6"}
   commonmark-hiccup {:mvn/version "0.1.0"}
   vvvvalvalval/scope-capture {:mvn/version "0.3.2"}
+  clj-http {:mvn/version "3.10.0"}
+  cheshire {:mvn/version "5.9.0"}
   trident/util {:mvn/version "0.1.19"}
   trident/repl {:mvn/version "0.1.19"}
   trident/views {:mvn/version "0.1.19"}

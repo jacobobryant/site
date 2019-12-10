@@ -3,10 +3,10 @@ title = "About"
 hide-title? = true
 +++
 
-I worked as a software engineer until I became a startup founder in January 2019.
-I specialize in web application architecture, functional programming
-and recommender systems. I'm currently working
-full-time on <a href="https://lagukan.com" target="_blank">Lagukan</a>.
+I worked as a software engineer until I became a startup founder in January
+2019. I specialize in recommender systems, web application architecture and
+functional programming. I'm currently working full-time on <a
+href="https://lagukan.com" target="_blank">Lagukan</a>.
 If you'd like to chat, shoot me an email: <a
 href="mailto:foo@jacobobryant.com">foo@jacobobryant.com</a>
 

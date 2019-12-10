@@ -9,6 +9,7 @@
             [clojure.walk :as walk]
             [site.feed :as feed]
             [sc.api :as sc]
+            [clj-http.client :as client]
             [commonmark-hiccup.core :as cm]
             [ring.middleware.resource :refer [wrap-resource]]))
 
@@ -76,8 +77,7 @@ alt=\"site stats\"></div></noscript>")
           [:li.nav-item
            [:a.navbar-brand {:style {:font-size "22px"} :href "/"} "Jacob O'Bryant"]]
           (for [[k title url] [[:post "Articles" "/"]
-                               [:books "Books" "/books/"]
-                               [:gists "Gists" "https://gist.github.com/jacobobryant"]
+                               [:recommendations "Recommendations" "/recommendations/"]
                                [:about "About" "/about/"]]]
             [:li.nav-item {:class (when (= k active-section) "active")}
              [:a.nav-link {:style {:font-size "18px"} :href url} title]])]]]
@@ -91,7 +91,7 @@ alt=\"site stats\"></div></noscript>")
           [:div
            [:div "Founder @ " [:a {:href "https://lagukan.com"} "Lagukan"]]
            (tv/gap "5px")
-           [:div subscribe]
+           [:div subscribe " (" [:a {:target "_blank" :href "/atom.xml"} "feed"] ")"]
            (tv/gap "5px")
            [:div [:a {:href "https://twitter.com/obryant666"} "Twitter"]]]]
          (into [:div.col-lg {:style {:max-width "600px"}}] contents)]]
@@ -172,12 +172,69 @@ alt=\"site stats\"></div></noscript>")
        :subtitle "Opinions on any topic, free of charge"
        :updated (:date (first posts))})))
 
+(def redirects
+  (u/map-vals
+    (fn [url] (ts/html [:html [:head [:meta {:http-equiv "Refresh"
+                                             :content (str "0; url=" url)}]]]))
+    {"/post/" "/"
+     "/books/" "/recommendations/"}))
+
+(def feed-base "https://Feeds--jobryant.repl.co/feed/")
+
+(defn feed [feed-name]
+  (-> (str feed-base feed-name "/json")
+      (client/get {:as :json})
+      :body))
+(def feed (memoize feed))
+
+(defn local-feed-name [feed-name]
+  (str "/recommendations/" feed-name ".xml"))
+
+(def feed-categories ["music" "books" "movies" "products" "other"])
+
+(def feeds
+  (->>
+    (conj feed-categories "main")
+    (map (fn [feed-name]
+           [(local-feed-name feed-name)
+            (fn [_]
+              (-> (str feed-base feed-name "/atom")
+                  client/get
+                  :body))]))
+    (into {})))
+
+(defn recommendations [_]
+  (page
+    {:title "Recommendations"
+     :active-section :recommendations}
+    [:p "This is an auto-generated list of things I like. There's also a "
+     [:a {:href (local-feed-name "main") :target "_blank"} "feed"]
+     " that includes all the categories."]
+    (for [feed-name feed-categories
+          :let [{:keys [title items]} (feed feed-name)]]
+      [:div
+       [:div.d-flex.align-items-baseline
+        [:h3 title]
+        [:div.flex-grow-1]
+        [:a {:href (local-feed-name feed-name)
+             :target "_blank"} "feed"]]
+       (for [{:keys [url title summary image]} items]
+         [:div.mb-2
+          {:style {:white-space "nowrap"
+                   :overflow "hidden"}}
+          [:a {:href url} title]
+          " "
+          [:small summary]])
+       (tv/gap)])))
+
 (def pages
   (stasis/merge-page-sources
     {:main {"/" home
-            "/post/" (ts/html [:html [:head [:meta {:http-equiv "Refresh" :content "0; url=/"}]]])
+            "/recommendations/" recommendations
             "/atom.xml" atom-feed}
-     :md-pages md-pages}))
+     :feeds feeds
+     :md-pages md-pages
+     :redirects redirects}))
 
 (defn wrap-fix-charset [handler]
   (fn [req]
@@ -197,7 +254,5 @@ alt=\"site stats\"></div></noscript>")
     (stasis/export-pages pages "target")))
 
 (comment
-
   (time (export))
-
    )
