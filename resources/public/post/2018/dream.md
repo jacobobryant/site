@@ -1,6 +1,6 @@
 +++
 date = "2018-04-20"
-title = "Living the dream"
+title = "Living the Dream"
 +++
 
 My (LDS) mission was a unique experience for me because we were

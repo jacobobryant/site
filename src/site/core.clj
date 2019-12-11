@@ -125,7 +125,7 @@ alt=\"site stats\"></div></noscript>")
       (fn [_]
         (page {:active-section section
                :title title}
-              (when-not hide-title? (some->> title (vector :h2)))
+              (when-not hide-title? (some->> title (vector :h3)))
               (some->> date format-date (vector :p))
               @content
               (when (post? url)
@@ -212,7 +212,9 @@ alt=\"site stats\"></div></noscript>")
      :active-section :recommendations}
     [:p "This is an auto-generated list of things I like. There's also a "
      (feed-link "main")
-     " that includes all the categories."]
+     " that includes all the categories. Read "
+     [:a {:href "/post/2019/pipeline/"} "Build Your Own Content Curation Pipeline"]
+     " to see how you can do this on your own website."]
     (for [feed-name feed-categories
           :let [{:keys [title items]} (feed feed-name)]]
       [:div

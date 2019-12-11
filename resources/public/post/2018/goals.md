@@ -1,6 +1,6 @@
 +++
 date = "2018-06-26"
-title = "Better goals and plans"
+title = "Better Goals and Plans"
 +++
 
 Why do we need goal setting and planning? In general, how can it be used effectively? The answer to

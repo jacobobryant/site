@@ -1,6 +1,6 @@
 +++
 date = "2017-12-07"
-title = "Big ideas (rough draft)"
+title = "Big Ideas (rough draft)"
 +++
 
 Problem/solution pairs are listed in the order in which I thought of

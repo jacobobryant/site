@@ -1,5 +1,5 @@
 +++
-title = "What I've learned since quitting my job"
+title = "What I've Learned Since Quitting My Job"
 date = "2019-11-15"
 +++
 

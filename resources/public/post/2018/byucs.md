@@ -1,6 +1,6 @@
 +++
 date = "2018-01-06"
-title = "How to improve CS education at BYU"
+title = "How to Improve CS Education at BYU"
 lastupdate = "2018-03-28"
 +++
 

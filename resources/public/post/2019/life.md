@@ -1,5 +1,5 @@
 +++
-title = "What I'm doing with my life"
+title = "What I'm Doing With My Life"
 date = "2019-05-03"
 +++
 

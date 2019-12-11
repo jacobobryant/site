@@ -1,5 +1,5 @@
 +++
-title = "Whosoever will lose his life"
+title = "Whosoever Will Lose His Life"
 date = "2017-01-22"
 +++
 *Based on a talk given in a YSA sacrament meeting*

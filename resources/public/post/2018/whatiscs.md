@@ -1,5 +1,5 @@
 +++
-title = "What is Computer Science all about?"
+title = "What is Computer Science All About?"
 date = "2018-09-25"
 +++
 
