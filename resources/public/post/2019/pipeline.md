@@ -138,3 +138,9 @@ up-to-date.
 If you like feeds, do take a look at [Findka](https://findka.com). It doesn't
 have enough data to do anything useful yet, but that'll change once enough people
 import feeds of content they've curated.
+
+For convenience, I'm planning to rebuild this pipeline within Findka so that
+people can use it without having to do all the setup work. However, I do like
+the user control and hackability that comes from using Airtable instead of
+Findka's database. Maybe I'll replace the other parts of the pipeline but keep
+Airtable. Let me know if you have an opinion.
