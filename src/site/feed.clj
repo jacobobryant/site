@@ -5,12 +5,13 @@
 (defn format-date [date]
   (.format (new java.text.SimpleDateFormat "yyyy-MM-dd'T'HH:mm:ss.SSSXXX") date))
 
-(defn atom-entry [{:keys [base-name title date url summary]}]
+(defn atom-entry [{:keys [base-name title date url summary content]}]
   [:entry
    [:title title]
    [:id url]
    [:updated (format-date date)]
    [:summary {:type "html"} (util/escape-html summary)]
+   [:content {:type "html"} (util/escape-html content)]
    [:link {:href url}]])
 
 (defn atom-feed [{:keys [subtitle base-name title author email posts updated] :as opts}]

@@ -1,2 +1,5 @@
 (ns user
-  (:require [trident.repl :refer :all]))
+  (:require [trident.repl :as repl]))
+
+(defn init []
+  (repl/init {:nrepl-port 7801}))

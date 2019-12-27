@@ -11,9 +11,10 @@
             [sc.api :as sc]
             [clj-http.client :as client]
             [commonmark-hiccup.core :as cm]
-            [ring.middleware.resource :refer [wrap-resource]]))
+            [ring.middleware.resource :refer [wrap-resource]]
+            [ring.middleware.content-type :refer [wrap-content-type]]))
 
-(def ^:dynamic *base-url* "http://localhost:8080")
+(def ^:dynamic *base-url* "http://localhost:7802")
 
 (defn element= [& xs]
   (apply = (map #(str/replace % #"(\.|#).*" "") xs)))
@@ -48,6 +49,7 @@ src=\"https://c.statcounter.com/12140644/0/e36ded0c/1/\"
 alt=\"site stats\"></div></noscript>")
 
 (def subscribe [:a {:href "https://tinyletter.com/jacobobryant"} "Subscribe"])
+(def little-subscribe [:a {:href "https://tinyletter.com/jacobobryant"} "subscribe"])
 
 (defn page [{:keys [active-section title description]} & contents]
   (let [f #(str (some-> % (str " | ")) "Jacob O'Bryant")
@@ -111,6 +113,7 @@ alt=\"site stats\"></div></noscript>")
         [metadata content] (rest (re-find #"(?s)\+\+\+(.*)\+\+\+(.*)" text))
         content (delay (cm/markdown->hiccup cm/default-config content))
         summary (delay (ts/html (first @content)))
+        content (delay (ts/html @content))
         metadata (->> (str/split metadata #"\n")
                       (remove (comp empty? str/trim))
                       (map (fn [s]
@@ -120,7 +123,8 @@ alt=\"site stats\"></div></noscript>")
         {:keys [title date hide-title?] :as metadata}
         (-> metadata
             (update-some :date #(.parse (new java.text.SimpleDateFormat "yyyy-MM-dd") %))
-            (assoc :summary summary))]
+            (assoc :summary summary)
+            (assoc :content content))]
     (with-meta
       (fn [_]
         (page {:active-section section
@@ -131,7 +135,7 @@ alt=\"site stats\"></div></noscript>")
               (when (post? url)
                 (list
                   [:hr]
-                  [:p [:small subscribe " to be notified about new posts and project updates."]]))))
+                  [:p.small "There's more where that came from if you " little-subscribe " to my newsletter."]))))
       metadata)))
 
 (def md-pages
@@ -159,7 +163,8 @@ alt=\"site stats\"></div></noscript>")
                      (map (fn [[url f]]
                             (-> (meta f)
                                 (assoc :url url)
-                                (update-some :summary deref))))
+                                (update-some :summary deref)
+                                (update-some :content deref))))
                      (filter (comp post? :url))
                      (map (fn [x] (update x :url #(str "https://jacobobryant.com" %))))
                      (sort-by :date)
@@ -243,14 +248,15 @@ alt=\"site stats\"></div></noscript>")
 (defn wrap-fix-charset [handler]
   (fn [req]
     (update-in (handler req) [:headers "Content-Type"]
-               #(cond-> % #{"text/html"} (str "; charset=utf-8")))))
+               #(cond-> % (#{"text/html"} %) (str "; charset=utf-8")))))
 
 (def app (-> pages
              stasis/serve-pages
              (wrap-resource "public")
+             wrap-content-type
              wrap-fix-charset))
 
-(defhandler app {:handler app})
+(defhandler app {:handler app :port 7802})
 
 (defn export []
   (u/sh "rsync" "-av" "--delete" "--exclude" "*.md" "resources/public/" "target")
