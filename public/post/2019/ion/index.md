@@ -26,7 +26,7 @@ requests to the same ion, then that ion used Compojure to route the request to
 the appropriate handler. For local development, I just ran a local web server
 with that handler.
 
-```language-clojure
+```clojure
 (def handler'
   (-> routes
       ; various middleware
@@ -69,7 +69,7 @@ deployed yet).
 So, I wrote a function `eval-tx-fns` which takes a transaction function and
 applies it locally. Then the "plain" transaction can be sent to the transactor.
 
-```language-clojure
+```clojure
 (def transact (if (:local-tx-fns? config)
                 (let [lock (Object.)]
                   (fn [conn arg-map]
@@ -122,7 +122,7 @@ question](https://forum.datomic.com/t/ion-deployment-failure/683)).
 For example, you shouldn't load configuration with `datomic.ion/get-params`
 until a request comes in. You can memoize the retrieval like so:
 
-```language-clojure
+```clojure
 (def get-params
   (memoize
     (fn [env]
@@ -134,7 +134,7 @@ And then *don't call it until you have to*. I used Firebase for authentication,
 and it requires some initialization code that fetched a secret from
 `get-params`:
 
-```language-clojure
+```clojure
 (let [options ...] ; includes a call to get-params
   (FirebaseApp/initializeApp options))
 ```
@@ -143,7 +143,7 @@ One of my deployment failures was happening because I had the Firebase init code
 running immediately. Deployment worked again after I wrapped it in an
 `init-firebase!` function which I then called only when verifying tokens:
 
-```language-clojure
+```clojure
 (defn verify-token [token]
   (when (= 0 (count (FirebaseApp/getApps)))
     (init-firebase!))
@@ -157,13 +157,13 @@ but I found that they didn't get redefined when I ran
 `clojure.tools.namespace.repl/refresh`. So I instead defined them as mount
 states:
 
-```language-clojure
+```clojure
 (mount.core/defstate client :start
   (d/client (:client-cfg config)))
 ```
 
 And then I added some ring middleware to start mount on the first request:
-```language-clojure
+```clojure
 (defn wrap-start-mount [handler]
   (fn [req]
     (when (contains? #{mount.core.NotStartedState
@@ -195,7 +195,7 @@ simpler right now), I definitely wanted to use DataScript.
 After the user logs in, the frontend hits an `/init` endpoint which returns
 their datoms:
 
-```language-clojure
+```clojure
 (defn datoms-for [db uid]
   (let [user-eid (:db/id (d/pull db [:db/id] [:user/uid uid]))]
     (->>
@@ -235,7 +235,7 @@ I'm also passing a `ds-schema` ("DataScript schema") argument to
 `stringify-eids`. This comes from a library that I share between the frontend
 and backend:
 
-```language-clojure
+```clojure
 (def schema
   {:user/uid [:db.type/string :db.unique/identity]
    :user/email [:db.type/string :db.unique/identity]
@@ -263,7 +263,7 @@ DataScript queries. I've used Posh a little bit, but
 
 So instead I wrote a macro `defq`:
 
-```language-clojure
+```clojure
 (defq entries
   (->> @conn
        (d/q '[:find [(pull ?e [*]) ...] :where
@@ -282,7 +282,7 @@ for now. I'll revisit it later.
 Besides `defq`, I've found that using plain old `reagent.ratom/reaction` is nice
 and succinct:
 
-```language-clojure
+```clojure
 (def entry (reaction (last @entries)))
 (def draft? (reaction (:entry/draft @entry)))
 ```
@@ -317,7 +317,7 @@ people who care about that).
 
 On the frontend I also defined a custom `transact!` function:
 
-```language-clojure
+```clojure
 (defn transact! [persist-fn conn tx & queries]
   (let [tx-result (d/transact! conn tx)]
     (apply invalidate! queries)
@@ -380,7 +380,7 @@ Each entity that was changed must pass an app-specific authorizer function.
 Here's an example of an authorizer function; it will allow a user to create a
 message entity as long as they are listed as the sender of that message:
 
-```language-clojure
+```clojure
 (s/def ::message (u/ent-spec :req [:message/text :message/sender]))
 
 (def authorizers

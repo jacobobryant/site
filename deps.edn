@@ -1,7 +1,7 @@
 {:deps
- {com.cemerick/url {:mvn/version "0.1.1"}
+ {com.atlassian.commonmark/commonmark {:mvn/version "0.13.1"}
+  com.cemerick/url {:mvn/version "0.1.1"}
   hiccup {:mvn/version "1.0.5"}
   hickory {:mvn/version "0.7.1"}
-  markdown-clj {:mvn/version "1.10.1"}
   me.raynes/fs {:mvn/version "1.4.6"}
   trident/util {:mvn/version "0.1.21"}}}

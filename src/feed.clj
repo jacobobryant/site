@@ -8,9 +8,18 @@
     [hiccup.util :as hutil]
     [hickory.core :as hickory]
     [hickory.render :as hickr]
-    [markdown.core :as md]
     [me.raynes.fs :as fs]
-    [trident.util :as u]))
+    [trident.util :as u])
+  (:import
+    [org.commonmark.parser Parser]
+    [org.commonmark.renderer.html HtmlRenderer]))
+
+(let [parser (.build (Parser/builder))
+      renderer (.build (HtmlRenderer/builder))]
+  (defn md-to-html [md]
+    (->> md
+         (.parse parser)
+         (.render renderer))))
 
 (def site-root "https://jacobobryant.com")
 (def cdn-root "https://cdn.jsdelivr.net/gh/jacobobryant/site/public")
@@ -38,7 +47,7 @@
 
 (defn format-md [{:keys [content current-path paths]}]
   (->> content
-       md/md-to-html-string
+       md-to-html
        hickory/parse-fragment
        (map hickory/as-hickory)
        (walk/postwalk
@@ -94,4 +103,4 @@
       (spit "public/feed.xml"))))
 
 (defn -main []
-  (write-feed))
+  (time (write-feed)))

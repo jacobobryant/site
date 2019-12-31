@@ -7,7 +7,7 @@ DigitalOcean instead, I'm going to write a blog post about what happened.
 I made the mistake of trying to deploy code to my Datomic system today. As
 usual, the deploy failed shortly after initiating it:
 
-```language-bash
+```bash
 $ iondeploy  # My deploy script. It prints the status every 3 seconds.
 ...
 {:deploy-status "RUNNING", :code-deploy-status "RUNNING"}
@@ -30,7 +30,7 @@ a weenie `t3.small` instance"). But since this is a near-daily occurrence for me
 I decided to figure out how to terminate the instance using the AWS CLI instead.
 
 Here's the result (thanks [Borkdude](https://github.com/borkdude/babashka)!):
-```language-clojure
+```clojure
 #!/bin/bash
 # vim: ft=clojure
 id=$(aws ec2 describe-instances | bb -i '
@@ -75,7 +75,7 @@ Today I learned that you can easily view the system logs for an instance
 from the EC2 console (under Actions -> Instance Settings -> Get System Log),
 after which I found the culprit:
 
-```language-bash
+```bash
 login: /dev/fd/11: line 1: /sbin/plymouthd: No such file or directory
 ```
 

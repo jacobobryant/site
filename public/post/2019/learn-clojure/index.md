@@ -23,7 +23,7 @@ First, [install Clojure](https://clojure.org/guides/getting_started). Then type
 `clj` to get an interactive prompt ("repl," short for read-eval-print-loop). In
 the repl, type `(println "hello world")`:
 
-```language-bash
+```bash
 $ clj
 Clojure 1.10.0
 user=> (println "hello world")
@@ -34,7 +34,7 @@ user=>
 
 Instead of using the default repl, you can get an enhanced repl like so:
 
-```language-bash
+```bash
 $ clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0.1.4\"}}}" -m rebel-readline.main
 [Rebel readline] Type :repl/help for online help info
 user=> (println "hello world")
@@ -43,7 +43,7 @@ nil
 user=>
 ```
 I recommend saving this as an alias, e.g. put the following in your `.bashrc`:
-```language-bash
+```bash
 alias repl='clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0.1.4\"}}}" -m rebel-readline.main'
 ```
 
@@ -53,7 +53,7 @@ I recommend starting out with the [Atom](https://atom.io) text editor.[1] After 
 install it, create a new project folder. Within that folder, edit a new file
 `src/web/core.clj` with Atom. So your project folder should look like this:
 
-```language-bash
+```bash
 $ tree myproject/
 myproject/
 └── src
@@ -62,7 +62,7 @@ myproject/
 ```
 
 Put the following inside `core.clj`:
-```language-clojure
+```clojure
 (ns web.core)
 
 (defn hello []
@@ -73,7 +73,7 @@ Put the following inside `core.clj`:
 ```
 
 From the terminal, you can run the file like so:
-```language-bash
+```bash
 $ cd myproject
 $ clj -m web.core
 hello world
@@ -103,12 +103,12 @@ blog/website if you like (this website is written with Clojure).
 
 We need to add a library to your project. Create a file `myproject/deps.edn`
 with the following contents:
-```language-clojure
+```clojure
 {:deps
  {trident/staticweb {:mvn/version "0.1.18"}}}
 ```
 Change the contents of `core.clj` to this:
-```language-clojure
+```clojure
 (ns web.core
   (:require [trident.staticweb :as tsweb]))
 
@@ -119,23 +119,23 @@ Change the contents of `core.clj` to this:
   (println (tsweb/html landing-page)))
 ```
 The `tsweb/html` function[2] takes a data structure that represents HTML:
-```language-bash
+```bash
 $ clj -m web.core
 <p>hello world</p>
 ```
 We can add inline css like so:
-```language-clojure
+```clojure
 (def landing-page
   [:p {:style {:color "red"}} "hello world"])
 ```
-```language-bash
+```bash
 $ clj -m web.core
 <p style="color:red">hello world</p>
 ```
 Because we're using plain data structures for both HTML and CSS, we can use
 functional abstraction and other standard programming techniques instead of
 dealing with templating languages or preprocessors. (Hallelujah).
-```language-clojure
+```clojure
 (defn p [color text]
   [:p {:style {:color color}} text])
 
@@ -144,7 +144,7 @@ dealing with templating languages or preprocessors. (Hallelujah).
    (p "red" "hello world")
    (p "blue" "goodnight moon")])
 ```
-```language-bash
+```bash
 $ clj -m web.core
 <div>
   <p style="color:red">hello world</p>
@@ -155,7 +155,7 @@ $ clj -m web.core
 
 Let's make this a little more complete, and let's have it write the HTML to a file
 for us.
-```language-clojure
+```clojure
 (def landing-page
   [:html
    [:head
@@ -169,7 +169,7 @@ for us.
   (spit "public/index.html" (tsweb/html landing-page)))
 ```
 Before running this, you'll need to create the `public` directory.
-```language-bash
+```bash
 $ mkdir public
 $ clj -m web.core
 $ cat public/index.html
@@ -193,7 +193,7 @@ size, using Clojurescript can be quite complex). You can switch to Clojurescript
 later when the time is right.
 
 Add a button to the div element:
-```language-clojure
+```clojure
 [:div
  (p "red" "hello world")
  (p "blue" "goodnight moon")
@@ -202,7 +202,7 @@ Add a button to the div element:
 Regenerate the HTML and test out the button before we move on.
 
 Let's separate the Javascript into a separate file.
-```language-clojure
+```clojure
 (def landing-page
   [:html
    [:head
@@ -215,7 +215,7 @@ Let's separate the Javascript into a separate file.
      [:button {:onclick "doSomething()"} "click me"]]]])
 ```
 Create a file `myproject/public/index.js` with the following contents:
-```language-javascript
+```javascript
 function doSomething() {
   alert("spam eggs");
 }
@@ -223,7 +223,7 @@ function doSomething() {
 Regenerate and test it out.
 
 Next, let's add some [Bootstrap](https://getbootstrap.com) to make CSS easier.
-```language-clojure
+```clojure
 (def bootstrap-4
   [:link {:rel "stylesheet"
           :href "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"

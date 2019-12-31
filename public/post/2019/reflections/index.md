@@ -124,7 +124,7 @@ hours at a day job instead. But what else is important to me?
    least have lots of time for side projects. I love exploring and I'm a very
    self-motivated learner. I can't give up my freedom.
 
- - Working in Clojure. I was more language-agnostic when I graduated, but after
+ - Working in Clojure. I was more agnostic when I graduated, but after
    a year each of doing Clojure and non-Clojure full-time, this is
    important to me.
 
