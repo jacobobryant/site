@@ -1,23 +1,14 @@
 # jacobobryant.com
 
-This is the source for [my personal website](https://jacobobryant.com). It's
-also a decent example of creating a static website with Clojure. Run `clj -e
-'(init)' -r` to run a development webserver on port 8080. After making any
-changes, you can reload either by running `(refresh)` from the repl or by
-eval-ing the `site.core` namespace from your editor.
+*Update: I no longer use this repo to generate my website. See
+https://github.com/jacobobryant/site/tree/4fcf06507a6da81f69f57dc61311129c5a0a1733
+if you'd like to know how that was done.*
 
-Deploys are done by eval-ing `(site.core/export)` and then running `./push.sh`.
+`clj -m feed`
 
-This website uses:
- - Markdown for content.
- - A home-grown markdown front matter parser, mimicking Hugo.
- - Bootstrap for styling.
- - `commonmark-hiccup` to convert markdown to hiccup, which is then
-   post-processed before being converted to HTML.
- - `trident.staticweb/html`, a hiccup + garden wrapper that allows inline CSS
-   like in Reagent.
- - `stasis` to serve HTML in development and export to the filesystem before
-   deployment.
+Generates an Atom feed with the content of all the markdown files under
+`public/`, which can then be imported into various blog hosting websites (I use
+[Findka](https://findka.com)).
 
 ## License
 
