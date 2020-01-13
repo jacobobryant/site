@@ -1,4 +1,200 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2019-12-27T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>AWS Battles, Episode 1</title><id>https://jacobobryant.com/post/2019/aws-battles-ep-1/</id><link href="https://jacobobryant.com/post/2019/aws-battles-ep-1/" /><updated>2019-12-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;m starting a new series. Whenever I start thinking about how much work it
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-01-13T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Life updates, 2020-01-13</title><id>https://jacobobryant.com/blog/2020-01-13/</id><link href="https://jacobobryant.com/blog/2020-01-13/" /><updated>2020-01-13T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;ve decided to start writing weekly updates about my work, life, etc.
+Typically I&apos;ve only written in-depth articles on specific topics; but that
+leaves out a lot of content in my head. So these blog updates will be
+lower-friction and more frequent. Plus, I can always take excerpts and turn
+them into separate articles later.&lt;/p&gt;
+&lt;h3&gt;Findka&lt;/h3&gt;
+&lt;h4&gt;Bye-bye Airtable&lt;/h4&gt;
+&lt;p&gt;I released a new version of &lt;a href=&quot;https://findka.com&quot;&gt;Findka&lt;/a&gt; last week. Previously,
+I had been using Airtable as a CMS for users. After you created a Findka
+account, you would copy a template base into your Airtale account, and you&apos;d
+enter the API key and base ID into Findka. When Findka imported your data from
+other accounts, the data would be stored in Airtable. The contents of Airtable
+were used to then generate your Findka profile/website. There was even a
+key-value base in the template which I used as an easy way to add configuration
+options.&lt;/p&gt;
+&lt;p&gt;This saved me from the horrors of adding a bunch of CRUD to Findka; however, it
+simply wasn&apos;t a great user experience. &lt;a href=&quot;https://community.airtable.com/t/could-airtable-power-my-ios-app/684&quot;&gt;Airtable wasn&apos;t meant to be used this
+way&lt;/a&gt;, and
+although I really liked the setup, it was confusing for others who tried
+using Findka. So I finally decided to do the sane thing and just store user
+data in my own database.&lt;/p&gt;
+&lt;p&gt;I hope that at some point, easy-to-use &lt;a href=&quot;https://knightcolumbia.org/content/protocols-not-platforms-a-technological-approach-to-free-speech&quot;&gt;data
+stores&lt;/a&gt;
+become available. Basically, the idea is that users would each have their own
+(managed or self-hosted) database which includes auth flows so you can give
+access to other apps. You&apos;d also have an Airtable-like interface so users could
+manipulate their data directly. Then instead of handling all the CRUD myself, I
+would specify a schema for data that my app needs, and users would go
+through an OAuth flow that sets everything up with their personal data store.
+(And if they didn&apos;t already have one, it&apos;d be easy to sign up within the flow.)
+Or even better; signing up for Findka would automatically create a free-tier
+data store, which would be moved into the user&apos;s existing account if they
+choose.&lt;/p&gt;
+&lt;p&gt;The best benefits of this IMO would be ease of development for me and
+hackability (in the good sense) for users. To expand on the latter, imagine if
+all your project management data was stored in a database that you had direct
+access to (instead of in *shudder* JIRA). And now imagine that there was a
+vibrant plugin ecosystem. If you wanted a better UI than JIRA provides for a
+particular workflow, you could install a plugin for just that use-case while
+continuing to use JIRA for everything else.&lt;/p&gt;
+&lt;p&gt;Anyway, that&apos;s one of the things I&apos;d like to build at some point. I think the
+time isn&apos;t quite right for it yet though.&lt;/p&gt;
+&lt;h4&gt;Also, bye-bye Fulcro&lt;/h4&gt;
+&lt;p&gt;When I started working on Findka about six weeks ago, I decided to try using
+Fulcro, which I had never learned before. But ultimately I decided that it&apos;s
+not for me. I spent Friday and Saturday ripping it out and replacing it with
+Rum and some custom code for managing state + backend/DB communications. I&apos;m
+really happy with the result.&lt;/p&gt;
+&lt;p&gt;The whole point of Fulcro is to manage the complexity of large apps, not to
+make small apps simple/easy. So there&apos;s a threshold of app size/complexity
+below which it doesn&apos;t make sense to use Fulcro. At the very least, I simply
+misjudged where that threshold is. Findka is higher than weekend-project level,
+but it&apos;s still at the solo-developer level. Maybe Fulcro is better for larger
+projects that involve more people.&lt;/p&gt;
+&lt;p&gt;The biggest issue I had with Fulcro is that there&apos;s a lot of added complexity
+involved with maintaining the client-side database. One of Fulcro&apos;s main
+features is automatic normalization: you define your data model as a tree
+structure, inline with your UI, and then Fulcro converts that into a normalized
+graph structure for you. However, in order to make the automatic normalization
+work, you have to do a fair amount of work whenever you read or write data.&lt;/p&gt;
+&lt;p&gt;Also, everything has to be done through a myriad of functions; Fulcro&apos;s API is
+not very data-driven. It was hard to build a mental model for how everything
+worked; instead it was more like &amp;quot;use this function for this situation, that
+function for that situation,&amp;quot; etc. I often found myself in situations that the
+documentation didn&apos;t quite cover, which meant I had to go read through the
+source code (some times I was successful, other times ended in work-arounds).&lt;/p&gt;
+&lt;p&gt;The result is that I ended up being slowed down significantly by Fulcro, and
+eventually I hit the breaking point. I am glad I had the experience of using it
+though. It was educational, and I could see myself going back to the docs to
+get ideas for how to handle various things in my new bespoke framework.&lt;/p&gt;
+&lt;h4&gt;The new architecture&lt;/h4&gt;
+&lt;p&gt;For one thing, I liked the way Fulcro structured the client DB. As an example,
+a slice of your DB might look like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;{:item {1 {:title &amp;quot;foo&amp;quot;
+           :description &amp;quot;bar&amp;quot;}
+        2 {:title &amp;quot;spam&amp;quot;
+           :description &amp;quot;eggs&amp;quot;
+           :item-ref [:item 1]}}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So you have two entities, and they have idents of &lt;code&gt;[:item 1]&lt;/code&gt; and &lt;code&gt;[:item 2]&lt;/code&gt;
+respectively. I&apos;m keeping roughly the same structure, and I&apos;m using lots of
+&lt;a href=&quot;https://github.com/tonsky/rum#cursors&quot;&gt;cursors&lt;/a&gt; and
+&lt;a href=&quot;https://github.com/martinklepsch/derivatives&quot;&gt;derivatives&lt;/a&gt; to access individual parts.
+I would love to use &lt;a href=&quot;https://github.com/arachne-framework/factui&quot;&gt;FactUI&lt;/a&gt;,
+but:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;It doesn&apos;t have pull expressions.&lt;/li&gt;
+&lt;li&gt;It seems experimental, and I want to stay slightly more on the
+tried-and-true path for this project.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For server communications, I set up a single REST endpoint which takes re-frame
+style events. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;; Server
+(defmethod handle :some-event
+  [{:keys [opts] :as req}]
+  (assert (= opts {:event-data &amp;quot;foo&amp;quot;}))
+  &amp;quot;hello&amp;quot;)
+
+; Client
+(go (println (&amp;lt;! (events/hit [:some-event {:event-data &amp;quot;foo&amp;quot;}]))))
+=&amp;gt; &amp;quot;hello&amp;quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For handling CRUD (well, CUD) operations, I&apos;ve made a &lt;code&gt;:save&lt;/code&gt; event handler
+which takes a custom transaction data structure, authorizes it using spec and
+the user&apos;s authenticated ID, and then converts it to a Datomic transaction.
+My new transaction format looks like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(events/hit
+  [:save
+   {; Each key is an ident.
+    [:item &amp;quot;https://item-url.example.com&amp;quot;] {:item/title &amp;quot;new title&amp;quot;
+                                            ; Set a nil value to retract.
+                                            :item/description nil}
+    ; You can retract entire entities too.
+    [:item &amp;quot;https://another-url.example.com&amp;quot;] nil
+    ; Singleton entities have an ident with only one element.
+    [:user] {:user.profile/id &amp;quot;jobryant&amp;quot;
+             ; Component entities can be included as nested maps.
+             :user/site-config {:site-config/display-name &amp;quot;Jacob&amp;quot;
+                                :site-config/color &amp;quot;#343a40&amp;quot;}}}])
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For authorization, you define some rules:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(def rules
+  ; Each key is a &amp;quot;table,&amp;quot; i.e. the first element in an ident.
+  {:item {; Each entity in the transaction must match the spec for its table.
+          ; only-keys doesn&apos;t allow any keys outside req and opt.
+          ; s/nilable means the user can retract entities from this table.
+          :spec (s/nilable (only-keys :req [:item/url-0] :opt schema/item-keys))
+          ; Given some context (`env`) and an entity&apos;s (client-side) ident, return
+          ; a Datomic lookup ref.
+          :id (fn [env [_ url]]
+                [:item/key-1 [url (:user-eid env)]])
+          ; If specified, the user&apos;s authenticated ID will be added to this key
+          ; on the entity.
+          :user-key :item/user-0}
+
+   :user {:spec (only-keys :opt [:user.profile/id :user/site-config])
+          :id (fn [env _]
+                (:user-eid env))}
+
+   :integrations {:spec (only-keys :opt [:user.integration/goodreads-id
+                                         :user.integration/feed-url
+                                         :user.integration/spotify-oauth])
+                  :id (fn [env _]
+                        (:user-eid env))}})
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In addition, entity values will be checked against any specs that have been
+registered for their keys. Component entities must have specs defined for their
+keys, e.g. &lt;code&gt;(s/def :user/site-config (only-keys :opt schema/site-config-keys))&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I&apos;d like to publish this transaction-handling code as a library after it&apos;s more
+fleshed-out and battle-tested, but in the mean time you can take a look at
+the &lt;a href=&quot;https://github.com/jacobobryant/trident/blob/3c05dd401b8dcdcecd81005adc35fe3b5bb8c453/src/trident/datomic_cloud.clj#L76&quot;&gt;post-authorization conversion code&lt;/a&gt;
+if you&apos;re interested.&lt;/p&gt;
+&lt;h3&gt;Workflow&lt;/h3&gt;
+&lt;p&gt;I&apos;ve reached the point now where my development environment involved opening
+about nine different terminal tabs whenever I get started, so I decided to
+figure out how to automate that. I&apos;ve started using tmux (and tmuxp for session
+management) and it&apos;s amazing. I can&apos;t believe I had gone all these years without
+it. I&apos;ve set my terminal-opening keyboard shortcut to &lt;code&gt;gnome-terminal -- tmux&lt;/code&gt;,
+so I&apos;ve moved completely from the builtin tabs to tmux. My &lt;code&gt;.tmux.conf&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;set -g status-bg black
+set -g status-fg white
+set -g mouse on
+set -g focus-events on
+bind -n C-S-Pagedown swap-window -t +1\; select-window -t +1
+bind -n C-S-Pageup swap-window -t -1\; select-window -t -1
+bind -n C-Pagedown next-window
+bind -n C-Pageup previous-window
+bind -n C-t new-window -c &amp;quot;#{pane_current_path}&amp;quot;
+bind C-h select-pane -L
+bind C-j select-pane -D
+bind C-k select-pane -U
+bind C-l select-pane -R
+bind C-b select-pane -t :.+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Other than figuring that out, I just had to learn how to copy-paste (hold shift
+while you select/middle-mouse click) and scroll (ctrl-b PageUp to enter scroll
+mode (well, &amp;quot;copy mode&amp;quot;), ctrl-c to exit).&lt;/p&gt;
+&lt;p&gt;I also finally got fed up with Vim adding extra indentation to e.g. custom
+macros, like&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(some-macro [a b c]
+            &amp;quot;uggggh&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;And so I discovered and added the following gem to my &lt;code&gt;nvim/init.vim&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;let g:clojure_fuzzy_indent_patterns = [&apos;.*&apos;]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This implements &lt;a href=&quot;https://tonsky.me/blog/clojurefmt/&quot;&gt;Tonsky&apos;s suggestion&lt;/a&gt; of
+&amp;quot;Multi-line lists that start with a symbol are always indented with two spaces&amp;quot;.
+Like tmux, I can&apos;t believe I&apos;d gone so long without it.&lt;/p&gt;
+&lt;h3&gt;This week&lt;/h3&gt;
+&lt;p&gt;I&apos;ll add more integrations to Findka and start working on the recommender system
+portion. I&apos;m hoping to have it at an MVP level (at least for the free tier)
+within a couple weeks.&lt;/p&gt;
+&lt;p&gt;Yesterday I also did a lot of thinking about my general approach to being a
+startup founder, and I might make some major modifications. I&apos;ve had enough
+writing for now though; maybe I&apos;ll talk about it next week. But it might result
+in me going back to do more work on &lt;a href=&quot;https://lagukan.com&quot;&gt;Lagukan&lt;/a&gt;!&lt;/p&gt;
+</content></entry><entry><title>AWS Battles, Episode 1</title><id>https://jacobobryant.com/post/2019/aws-battles-ep-1/</id><link href="https://jacobobryant.com/post/2019/aws-battles-ep-1/" /><updated>2019-12-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;m starting a new series. Whenever I start thinking about how much work it
 might take to ditch AWS and Datomic Ions and set up Datomic On-Prem on
 DigitalOcean instead, I&apos;m going to write a blog post about what happened.&lt;/p&gt;
 &lt;p&gt;I made the mistake of trying to deploy code to my Datomic system today. As

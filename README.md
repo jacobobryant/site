@@ -1,6 +1,6 @@
 # jacobobryant.com
 
-*Update: I no longer use this repo to generate my website. See
+*Update: I no longer use this repo to generate my entire website. See
 https://github.com/jacobobryant/site/tree/4fcf06507a6da81f69f57dc61311129c5a0a1733
 if you'd like to know how that was done.*
 
