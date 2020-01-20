@@ -16,7 +16,7 @@ I had been thinking since August that I wanted to get Lagukan going and then sta
 
 **Feedback and Updates**
 
-- For weekly-ish updates about my work on Findka, you can [subscribe to my personal newsletter](https://tinyletter.com).
+- For weekly-ish updates about my work on Findka, you can [subscribe to my personal newsletter](https://tinyletter.com/jacobobryant).
 - For feedback, you can [send me a tweet](https://twitter.com/obryant666) or reply to this email.
 - I'll continue to send relatively infrequent updates about Lagukan and Findka to this mailing list.
 - To read this email again, press 3 (and then read it again).
