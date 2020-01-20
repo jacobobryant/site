@@ -15,7 +15,9 @@ opportunity to do some introspection before I go head-down coding again.
 
 So, here are a few of the things I've been thinking about.
 
-**Spotify is actually pretty good**
+<strike>**Spotify is actually pretty good**</strike>
+
+*Update: after testing out Spotify for longer than one day, I no longer believe this.*
 
 I've been in love with music since I was about 12. I started using Pandora while
 in high school. I discovered a lot of new music that way, but it was far from
