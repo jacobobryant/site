@@ -2,9 +2,7 @@
 
 I mentioned [last week](/blog/2020-01-13/) that I had an epiphany about my being-a-startup-founder strategy. I can sort-of capture the essence of it in one sentence: I've started using "personal newsletter subscribers" as my primary metric. (If you got here by clicking a link in an email, thanks for helping out).
 
-This will be my main metric until I get my startup from the figuring-it-out stage to the growth stage. I've set a goal to grow the newsletter by 7% each week. My plan is to spend Monday mornings writing about the work I did or thoughts I had the previous week. So ideally I'm not shifting too much time away from working on the startup; I'm just taking advantage of that work to grow my subscribers.
-
-And... I'm not necessarily thinking of my startup as a startup anymore. Rather, it's a project which I care deeply about and have decided is worth spending a few months on. After those few months are over, we'll see what happens.
+This will be my main metric until I get my startup from the figuring-it-out stage to the growth stage. I've set a goal to grow the newsletter by 7% each week. My plan is to spend Monday mornings writing about the work I did or thoughts I had the previous week. So ideally I'm not shifting too much time away from working on the startup; I'm just taking advantage of that work to provide good content and grow my subscribers.
 
 **Why?**
 
@@ -16,7 +14,7 @@ So what do you do when you fail at validating your startup idea, but you still b
 
 As with all my hard startup questions, I asked myself: WWPGD? ("What would Paul Graham do?"). In short, I haven't seen PG write much about idea validation. I have seen him say, over and over, make something you want yourself. So I decided that my personal belief in the idea was more important than trying to get external validation.
 
-I even came up with an explanation for why some people harp on idea validation so much (and criticize you if you ignore it--I call them the "Lean Police," cousins of the Agile/Scrum Police). It's because there are different kinds of startups. There are plenty of founders for whom *idea validation is their form of hacking.* For them, the whole point of doing a startup is to find an inefficiency in the market and fix it. That's a great thing. It's just a different thing from working on something because you want it badly for yourself, and it would be a mistake to say that either method is the One True Way to start a startup.
+I even came up with an explanation for why some people harp on idea validation so much (and criticize you if you ignore it&mdash;I call them the "Lean Police," cousins of the Agile/Scrum Police). It's because there are different kinds of startups. There are plenty of founders for whom *idea validation is their form of hacking.* For them, the whole point of doing a startup is to find an inefficiency in the market and fix it. That's a great thing. It's just a different thing from working on something because you want it badly for yourself, and it would be a mistake to say that either method is the One True Way to start a startup.
 
 To expand on that, the whole point of idea validation is to reduce risk. But that's not always a good thing&mdash;it means you may overlook good ideas that seem bad. So putting effort into validation simply has a different risk/reward profile vs. scratching your own itch (not to mention effects on motivation). I think idea validation is good advice; it just doesn't apply to everyone in every situation.
 
@@ -36,6 +34,23 @@ I've adopted this strategy:
 
 5. Once I'm at a state of closure&mdash;where the project is completed enough that I would feel OK moving on to something else if needed&mdash;launch it. Ideally the newsletter is decently large at this point, but there are also channels like Show HN and Product Hunt etc.
 
-6. Now that I've given birth, the goal is to rationally decide if the baby will continue as a business or as a side project. If it's a business, I'll be stoked. If it's a side project, then at least I've been building a *personal* newsletter, not a newsletter for the startup. I can move on to the next thing and keep the same subscriber base. In fact, the more I've been thinking about it, the more I wish I had started a newsletter 10 years ago. No matter what I do with my career&mdash;startups, consulting, or even getting a job&mdash;I can take the subscribers with me.
+6. Now that I've given birth, step away from coding so much and focus on
+   promotion. The goal is to rationally decide if the baby will continue as a
+   business or as a side project. This decision doesn't have to happen right
+   away. I could fork off a background process to do promotion while I work on
+   another project, do some consulting, or even write full-time. But I should
+   be past the point of thinking "once I add feature X, *then* it'll be good
+   enough to get users."
 
-I worked on my music recommendation idea from last June until November, at which point I decided to pivot. ([Details here](/post/2020/lagukan-update/) if you're interested). Had I used this strategy, I think I would have more to show for it with less time spent.
+If the project does end up as a business, I'll be stoked. If it's a side
+project, then at least I've been building a *personal* newsletter, not a
+newsletter for the startup. I can move on to the next thing and keep the same
+subscriber base. In fact, the more I've been thinking about it, the more I wish
+I had started a newsletter 10 years ago. No matter what I do with my
+career&mdash;startups, consulting, or even getting a job&mdash;I can take the
+subscribers with me.
+
+I worked on my music recommendation idea from last June until November, at
+which point I decided to pivot. ([Details here](/post/2020/lagukan-update/) if
+you're interested). Had I used this strategy, I think I would have more to show
+for it with less time spent.
