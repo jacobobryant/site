@@ -54,3 +54,7 @@ I worked on my music recommendation idea from last June until November, at
 which point I decided to pivot. ([Details here](/post/2020/lagukan-update/) if
 you're interested). Had I used this strategy, I think I would have more to show
 for it with less time spent.
+
+<br><br><br>
+
+Discuss on: [Hacker News](https://news.ycombinator.com/item?id=22108593) | [Twitter](https://twitter.com/obryant666/status/1219663912427110400)
