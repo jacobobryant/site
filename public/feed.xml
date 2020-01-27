@@ -1,4 +1,57 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-01-20T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Startup Validation for Hackers</title><id>https://jacobobryant.com/post/2020/validation/</id><link href="https://jacobobryant.com/post/2020/validation/" /><updated>2020-01-20T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I mentioned &lt;a href=&quot;https://jacobobryant.com/blog/2020-01-13/&quot;&gt;last week&lt;/a&gt; that I had an epiphany about my being-a-startup-founder strategy. I can sort-of capture the essence of it in one sentence: I&apos;ve started using &amp;quot;personal newsletter subscribers&amp;quot; as my primary metric. (If you got here by clicking a link in an email, thanks for helping out).&lt;/p&gt;
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-01-27T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Weeklyish update #2</title><id>https://jacobobryant.com/blog/2020-01-27/</id><link href="https://jacobobryant.com/blog/2020-01-27/" /><updated>2020-01-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;&lt;a href=&quot;https://findka.com&quot;&gt;Findka&lt;/a&gt; has one milestone left before launch. I&apos;ve finished the &amp;quot;gathering data&amp;quot;
+part, and all that&apos;s left now is the &amp;quot;use the data&amp;quot; part. Of course, gathering
+the data takes much more work. It&apos;s amusing that I still didn&apos;t quite grok that
+when I started working on Findka two months ago. I began by making the
+recommender system first. I didn&apos;t really think deeply about what would be the
+most practical way to get data into the system until a basic prototype for that
+was finished. And then of course, I realized that I had been working on things
+in the wrong order.&lt;/p&gt;
+&lt;p&gt;So now Findka has a good setup for ingesting data. There are 10 integrations
+which let people import data from other apps they use, but not every content
+type has a good candidate for integration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Movies: IMDB, Rotten Tomatoes and Metacritic, none of which have an API.
+Scraping could work, but I don&apos;t want to deal with that right now.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Podcasts: &lt;a href=&quot;https://podchaser.com&quot;&gt;Podchaser&lt;/a&gt; looks good, but no API. After
+Findka launches, I&apos;ll email them and see if they&apos;re planning to open a
+public API. There&apos;s also &lt;a href=&quot;https://listennotes.com&quot;&gt;Listennotes&lt;/a&gt;. They have
+an API, but it doesn&apos;t let you fetch individual user ratings (actually users
+can&apos;t even rate podcasts; you can only add them to lists).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Products: Amazon&apos;s API no longer lets you retrieve review data (though I&apos;m
+not sure if it previously let you get reviews for individuals or just in
+aggregate).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;So for now, the Pocket integration acts as a catchall (in addition to importing
+articles). When you save a link with Pocket, you just add a tag for the content
+type, e.g. &amp;quot;movie&amp;quot;. If you favorite the item, Findka will import it and set the
+content type based on the tag. So the state of integrations is I think good
+enough for now. I also have integrations for music (Spotify, Last.fm), books
+(Goodreads), articles you&apos;ve written (RSS), videos (YouTube), comments/posts
+(Twitter, Reddit, Hacker News) and even code (Github).&lt;/p&gt;
+&lt;p&gt;I need to spend some more
+&lt;a href=&quot;https://www.youtube.com/watch?v=f84n5oFoZBc&quot;&gt;hammock&lt;/a&gt; time on figuring out the
+best way to set up the recommender system now that all the integrations are in
+place. I&apos;d like it to be based on open protocols (RSS). The people/things you
+&amp;quot;follow&amp;quot; will be implemented with RSS—you&apos;ll simply have a list of RSS
+links which you can edit. This&apos;ll play well with the websites that Findka
+generates, since every website includes an &lt;a href=&quot;https://jacobobryant.com/feed/&quot;&gt;RSS
+page&lt;/a&gt; with different feeds for content types
+and tags. You can even specify if you want a feed for just the website owner&apos;s
+content or if you also want to follow their recommendations as well.&lt;/p&gt;
+&lt;p&gt;Your main Findka feed will have two options: &amp;quot;smart&amp;quot; and &amp;quot;linear.&amp;quot; Linear is just
+an aggregation of the RSS feeds you follow. So it&apos;s like any other feed reader,
+but it&apos;ll be built with multiple content types in mind rather than just
+articles. The smart feed will be the recommender system, which will take into
+account the feeds you follow, the content you&apos;ve imported into your account with
+integrations, and your feedback to content in the smart and linear feeds (views,
+clicks, thumbs up/down).&lt;/p&gt;
+</content><category term="blog"></category></entry><entry><title>Startup Validation for Hackers</title><id>https://jacobobryant.com/post/2020/validation/</id><link href="https://jacobobryant.com/post/2020/validation/" /><updated>2020-01-20T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I mentioned &lt;a href=&quot;https://jacobobryant.com/blog/2020-01-13/&quot;&gt;last week&lt;/a&gt; that I had an epiphany about my being-a-startup-founder strategy. I can sort-of capture the essence of it in one sentence: I&apos;ve started using &amp;quot;personal newsletter subscribers&amp;quot; as my primary metric. (If you got here by clicking a link in an email, thanks for helping out).&lt;/p&gt;
 &lt;p&gt;This will be my main metric until I get my startup from the figuring-it-out stage to the growth stage. I&apos;ve set a goal to grow the newsletter by 7% each week. My plan is to spend Monday mornings writing about the work I did or thoughts I had the previous week. So ideally I&apos;m not shifting too much time away from working on the startup; I&apos;m just taking advantage of that work to provide good content and grow my subscribers.&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Why?&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;It comes down to startup validation. I first heard about the concept while reading &lt;a href=&quot;https://www.goodreads.com/book/show/12236649-nail-it-then-scale-it&quot;&gt;Nail It Then Scale It&lt;/a&gt; 2.5 years ago, just before my last semester of college. Instead of going to town on your startup idea, first go talk to people. Make sure it&apos;s something people actually want before you spend a bunch of time on it. It seemed like good advice, and I wanted to be a diligent founder.&lt;/p&gt;
@@ -63,7 +116,7 @@ for it with less time spent.&lt;/p&gt;
 &lt;li&gt;I&apos;ll continue to send relatively infrequent updates about Lagukan and Findka to this mailing list.&lt;/li&gt;
 &lt;li&gt;To read this email again, press 3 (and then read it again).&lt;/li&gt;
 &lt;/ul&gt;
-</content><category term="startups"></category></entry><entry><title>Life updates, 2020-01-13</title><id>https://jacobobryant.com/blog/2020-01-13/</id><link href="https://jacobobryant.com/blog/2020-01-13/" /><updated>2020-01-13T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;ve decided to start writing weekly updates about my work, life, etc.
+</content><category term="startups"></category></entry><entry><title>Weeklyish update #1</title><id>https://jacobobryant.com/blog/2020-01-13/</id><link href="https://jacobobryant.com/blog/2020-01-13/" /><updated>2020-01-13T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;ve decided to start writing weekly updates about my work, life, etc.
 Typically I&apos;ve only written in-depth articles on specific topics; but that
 leaves out a lot of content in my head. So these blog updates will be
 lower-friction and more frequent. Plus, I can always take excerpts and turn
@@ -259,7 +312,7 @@ within a couple weeks.&lt;/p&gt;
 startup founder, and I might make some major modifications. I&apos;ve had enough
 writing for now though; maybe I&apos;ll talk about it next week. But it might result
 in me going back to do more work on &lt;a href=&quot;https://lagukan.com&quot;&gt;Lagukan&lt;/a&gt;!&lt;/p&gt;
-</content></entry><entry><title>AWS Battles, Episode 1</title><id>https://jacobobryant.com/post/2019/aws-battles-ep-1/</id><link href="https://jacobobryant.com/post/2019/aws-battles-ep-1/" /><updated>2019-12-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;m starting a new series. Whenever I start thinking about how much work it
+</content><category term="blog"></category></entry><entry><title>AWS Battles, Episode 1</title><id>https://jacobobryant.com/post/2019/aws-battles-ep-1/</id><link href="https://jacobobryant.com/post/2019/aws-battles-ep-1/" /><updated>2019-12-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;I&apos;m starting a new series. Whenever I start thinking about how much work it
 might take to ditch AWS and Datomic Ions and set up Datomic On-Prem on
 DigitalOcean instead, I&apos;m going to write a blog post about what happened.&lt;/p&gt;
 &lt;p&gt;I made the mistake of trying to deploy code to my Datomic system today. As

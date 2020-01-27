@@ -1,4 +1,4 @@
-{:date "2020-01-13" :title "Life updates, 2020-01-13" :tags []}
+{:date "2020-01-13" :title "Weeklyish update #1" :tags ["blog"]}
 
 I've decided to start writing weekly updates about my work, life, etc.
 Typically I've only written in-depth articles on specific topics; but that
