@@ -218,6 +218,49 @@ irrationality or faithlessness.
 
 <br> <br> <br>
 
+**Appendix: Scientific thought vs. rational thought**
+
+Scientific thought is a strict subset of rational thought. Rational thought just
+means that you try to have good reasons for the things you believe and do. But
+science is more restrictive. For example:
+
+ - Skepticism. The evidence required to believe a claim is relatively high.
+
+ - Verifiability. Evidence (e.g. experimental results) is only considered valid
+   if it can be reliably verified by others.
+
+So scientific thought tends to be fairly conservative. This has been effective
+because it helps to ensure slow but steady progress. Humans throughout history
+have been prone to believe lots of things that aren't true, and science puts a
+damper on that.
+
+That conservativeness has inevitable consequences: it makes you more prone to
+false negatives, where you disbelieve something that actually is true. That's
+usually a good tradeoff because we'd rather have lots of false negatives and
+relatively few false positives than vice-versa. False negatives are often only
+temporary, anyway. We may not believe a claim yet, but we can change our minds
+after more evidence is gathered. On the other hand, if you have lots of false
+positives, then they can build on each other. You can waste a lot of time going
+down a path that's based on a false positive (like alchemy).
+
+Scientific thought is well-suited for many things. However, no one would argue
+that you should restrict yourself to scientific thought in every situation. The
+classic example is love. If you apply skepticism and verifiability to your
+relationships, your conclusion will always be that you're not in love. Another
+example is startups. Most of the returns are concentrated in a few outliers.
+Conservative, scientific thinking in many cases would cause you to not work on
+or invest in the best startups. If you tell yourself that you only believe
+things which are supported by scientific thought, then you're precluding
+certain beliefs based on the axioms (e.g. skepticism, verifiability) you've
+adopted&mdash;no evidence necessary.
+
+Belief in God is sometimes put at odds with rational and/or scientific thought,
+but the distinction between scientific and rational thought is usually not
+addressed. That's critical. I'd agree that belief in God doesn't fall within
+scientific thought. I do think it can fall under rational thought.
+
+<br> <br> <br>
+
 **Notes**
 
 [1] *Enlightenment Now* by Steven Pinker
