@@ -1,4 +1,155 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-01-27T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Weeklyish update #2</title><id>https://jacobobryant.com/blog/2020-01-27/</id><link href="https://jacobobryant.com/blog/2020-01-27/" /><updated>2020-01-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;&lt;a href=&quot;https://findka.com&quot;&gt;Findka&lt;/a&gt; has one milestone left before launch. I&apos;ve finished the &amp;quot;gathering data&amp;quot;
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-02-04T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>The Solo Hacker's Guide To Clojure</title><id>https://jacobobryant.com/post/2020/guide-to-clojure/</id><link href="https://jacobobryant.com/post/2020/guide-to-clojure/" /><updated>2020-02-04T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;&lt;em&gt;This is a continuation of my previous post &amp;quot;Learn Clojure with Web Dev,&amp;quot; which
+I&apos;ve renamed to &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With Clojure&lt;/a&gt;. I&apos;ve moved
+some of the content from there to here, so I may sound like I&apos;m repeating myself
+a little if you&apos;ve read that previously.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This is the starting point for a series of articles I&apos;m planning to write. My
+target audience is people who want to use Clojure for side projects or new
+startups—i.e. I&apos;m trying to help fellow solo hackers learn to bring new
+ideas to the MVP stage quickly, and my recommendations will be made accordingly.&lt;/p&gt;
+&lt;p&gt;This will also be an opinionated guide which teaches how I personally do web +
+mobile development. Rather than give an overview of X, Y and Z, I&apos;ll say &amp;quot;use
+X&amp;quot; and include a footnote that compares X to other options. I want you to feel
+the leverage that can come from Clojure as soon as possible, without having to
+wade through the jungle first.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;mailto:a@jacobobryant.com&quot;&gt;Please let me know&lt;/a&gt; what topics you&apos;d like me to
+write about. I&apos;d love to hear what things you&apos;re trying to learn and build. I&apos;m
+not an expert by any means, but I&apos;ve been doing Clojure full-time for over a
+year now at least. And I recently started a habit of writing every Monday, so
+I&apos;m hoping to make consistent progress on this.&lt;/p&gt;
+&lt;!--
+And one final note to ease my imposter syndrome: I don&apos;t pretend to be a huge
+Clojure expert. However, I have been using Clojure in side projects since 2016
+and full-time as a startup founder/bum since January 2019, and I genuinely love
+figuring out the simplest ways to do application development. For those of you
+further along than me, I&apos;d be happy to hear your recommendations.
+--&gt;
+&lt;h3&gt;Roadmap&lt;/h3&gt;
+&lt;p&gt;I&apos;m doing this breadth-first. Currently, what follows is mostly just an outline
+of what I&apos;m planning to write.&lt;/p&gt;
+&lt;h4&gt;1. Language fundamentals&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With Clojure&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;As recommended in that link, work through chapters 3, 4 and 5 of &lt;a href=&quot;https://www.braveclojure.com/clojure-for-the-brave-and-true/&quot;&gt;Clojure for
+the Brave and
+True&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Also see Yogthos&apos;s &lt;a href=&quot;https://gist.github.com/yogthos/be323be0361c589570a6da4ccc85f58f&quot;&gt;Clojure beginner
+resources&lt;/a&gt;
+and see if there&apos;s anything that tickles your fancy.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Do interactive exercises on &lt;a href=&quot;https://www.4clojure.com&quot;&gt;4clojure&lt;/a&gt; until you
+start to get a feel for things.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For the rest of this guide, decide on a web application you&apos;d like to build. If
+you need ideas, I think board games are great since they involve complex logic
+(not just CRUD), it&apos;s easy to be a genuine user yourself, you end up with
+something that&apos;s easy to show off, and you can go on to extend it with an AI if
+you like.&lt;/p&gt;
+&lt;h4&gt;2. Frontend development&lt;/h4&gt;
+&lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Make a &amp;quot;Coming soon&amp;quot; landing page for your app. Include an email signup form
+using JS + Firebase Firestore for persistence. No ClojureScript yet; we&apos;ll just use
+Clojure to generate the HTML files. Use Bootstrap for styling unless you
+already have another CSS toolkit you like. Deploy with Firebase Hosting. Tell
+all your friends to sign up.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add a login form with Firebase Authentication. Set up ClojureScript with
+Shadow CLJS. Create a basic welcome page with Rum. Add CRUD operations,
+still using Firestore for persistence. Learn to make complex UIs with Rum.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Learn about normalization, derived values and effect isolation (i.e. state
+management) so you don&apos;t go insane later (insanity can be harmful to your
+velocity). Rejoice that you don&apos;t have to use a DI framework like I did while
+working at an Angular shop.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;3. Backend development&lt;/h4&gt;
+&lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;Write Firebase Functions using ClojureScript. Learn when it makes sense to use
+Functions + Firestore and when it makes sense to move to a Clojure backend
+instead.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up a Clojure backend with DigitalOcean, Crux and managed Postgres.
+Probably Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync
+(maybe Github Actions?). Set up logging and alerting (optionally, come back to
+this step later).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Set up communication between your frontend and backend. Add Ring middleware
+for authenticating Firebase tokens. Move your CRUD from Firestore to Crux,
+using a rules system so you don&apos;t get a proliferation of endpoints. Use
+Firebase Storage (or maybe DigitalOcean Spaces?) for BLOB storage, with
+foreign keys stored in Crux (and utility fns for making it look like
+everything&apos;s in Crux).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Learn about system management with Integrant (or maybe just roll your own).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Use your editor-repl integration for testing and administration. Learn my own
+opinionated approach to testing, meant to give you reasonably high confidence
+in your code without having to spend much time writing tests.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Consume 3rd party APIs, including things like Oauth, caching and
+self-throttling. Set up cron jobs. Provide a pagination API for your frontend.
+Any other stuff I can think of that might be useful.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;MAYBE: use Datomic Ions instead of Crux. Ions are actually what I&apos;m familiar
+with; I&apos;ve never used Crux. But I&apos;ve had enough headaches from Ions/AWS that I
+don&apos;t think the overhead is worth it for solo hackers. Plus, you have to use
+the solo topology for production (which is unsupported) until your app has
+enough traction to warrant a pair of i3.large instances (on the order of a few
+hundred bucks/month). Solo topology means no direct HTTP/dealing with lambda
+warmup times and, more importantly, deploys that often require 5-30 minutes of
+downtime (in my experience). On the other hand, I believe I&apos;ve worked through
+most of the quirks of Ions, so maybe it&apos;d be useful if I wrote an article
+about it.&lt;/p&gt;
+&lt;p&gt;Another option is using Datomic On-Prem with DigitalOcean. That would make it
+easier to migrate to Ions later on. I&apos;ll evaluate Crux vs. On-Prem when I get
+to this point in the course.&lt;/p&gt;
+&lt;p&gt;(Also, there is Datomic Cloud without Ions. However, you have to give up
+data/code locality which I consider a killer feature. It&apos;s been especially
+helpful to me in building recommender systems, but even for just CRUD, having
+data/code locality makes it easier to introduce abstractions. I probably would
+only use Cloud without Ions for one-off services.)&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;4. Miscellanea&lt;/h4&gt;
+&lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;&amp;quot;Library-driven development.&amp;quot; Set up your own collection of utility libraries
+so you can easily abstract away code that isn&apos;t specific to your project.
+Besides letting you share code between projects and with other people, I think
+doing so makes it easier to hold the application code in your head.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tooling. Set up an editor (probably Atom or VS Code, with a mention of
+Cursive) with plugins etc. Learn how to use it for Clojure development. Learn
+about tools.deps, Lein and Boot. (I&apos;ll include links to relevant sections in
+this article throughout the course).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Tooling for the enlightened: learn Vim and set it up for Clojure. For the
+really enlightened: use Dvorak instead of Qwerty (ok, just kidding, sorta).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+</content><category term="clojure"></category></entry><entry><title>Weeklyish update #2</title><id>https://jacobobryant.com/blog/2020-01-27/</id><link href="https://jacobobryant.com/blog/2020-01-27/" /><updated>2020-01-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;&lt;a href=&quot;https://findka.com&quot;&gt;Findka&lt;/a&gt; has one milestone left before launch. I&apos;ve finished the &amp;quot;gathering data&amp;quot;
 part, and all that&apos;s left now is the &amp;quot;use the data&amp;quot; part. Of course, gathering
 the data takes much more work. It&apos;s amusing that I still didn&apos;t quite grok that
 when I started working on Findka two months ago. I began by making the
@@ -565,16 +716,9 @@ validation, bootstrapping vs. VC... so let me know if you&apos;d like to read a 
 Fortunately, I should be able to release this one within a week or two. And if
 it works, Lagukan will likely make a good complementary product down the rode.
 I&apos;ll keep my fingers crossed.&lt;/p&gt;
-</content></entry><entry><title>Learn Clojure with Web Dev</title><id>https://jacobobryant.com/post/2019/learn-clojure/</id><link href="https://jacobobryant.com/post/2019/learn-clojure/" /><updated>2019-10-23T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;I&apos;ve created this document so that I have a single link I can give people for
-learning Clojure. It is:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;a work in progress&lt;/li&gt;
-&lt;li&gt;not meant to be comprehensive&lt;/li&gt;
-&lt;li&gt;opinionated/a reflection of how I do web development&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;I&apos;m trying to help people get started without being overwhelmed by all the
-different options. I&apos;ll link to existing resources when possible, adding my
-own as needed.&lt;/p&gt;
+</content></entry><entry><title>First Steps With Clojure</title><id>https://jacobobryant.com/post/2019/learn-clojure/</id><link href="https://jacobobryant.com/post/2019/learn-clojure/" /><updated>2019-10-23T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;This is a quick tutorial for writing your first Clojure program: a minimalist
+static site generator, which is a great way to start doing web dev. Part of
+&lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To Clojure&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Prerequisites:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;basic terminal experience&lt;/li&gt;
@@ -604,9 +748,11 @@ user=&amp;gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;alias repl=&apos;clojure -Sdeps &amp;quot;{:deps {com.bhauman/rebel-readline {:mvn/version \&amp;quot;0.1.4\&amp;quot;}}}&amp;quot; -m rebel-readline.main&apos;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h4&gt;Run from a file&lt;/h4&gt;
-&lt;p&gt;I recommend starting out with the &lt;a href=&quot;https://atom.io&quot;&gt;Atom&lt;/a&gt; text editor.[1] After you
-install it, create a new project folder. Within that folder, edit a new file
-&lt;code&gt;src/web/core.clj&lt;/code&gt; with Atom. So your project folder should look like this:&lt;/p&gt;
+&lt;p&gt;I recommend starting out with the &lt;a href=&quot;https://atom.io&quot;&gt;Atom&lt;/a&gt; text editor. You
+don&apos;t have to this right away, but before too long you should install the
+parinfer plugin (&lt;code&gt;apm install parinfer&lt;/code&gt;). After you install Atom, create a new
+project folder. Within that folder, edit a new file &lt;code&gt;src/web/core.clj&lt;/code&gt;. So your
+project folder should look like this:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ tree myproject/
 myproject/
 └── src
@@ -628,8 +774,8 @@ $ clj -m web.core
 hello world
 &lt;/code&gt;&lt;/pre&gt;
 &lt;h3&gt;Start learning Clojure&lt;/h3&gt;
-&lt;p&gt;For actually learning the language, I recommend
-&lt;a href=&quot;https://www.braveclojure.com/clojure-for-the-brave-and-true/&quot;&gt;Clojure for the Brave and True&lt;/a&gt;. (It&apos;s
+&lt;p&gt;For actually learning the language, I recommend &lt;a href=&quot;https://www.braveclojure.com/clojure-for-the-brave-and-true/&quot;&gt;Clojure for the Brave and
+True&lt;/a&gt;. (It&apos;s
 available online for free at that link, though I liked having a hard copy).&lt;/p&gt;
 &lt;p&gt;You can skip chapters 1 and 2. Work through chapter 3 before going on to the
 next section in this document. Fairly soon, make sure you also understand
@@ -658,7 +804,7 @@ with the following contents:&lt;/p&gt;
 (defn -main []
   (println (tsweb/html landing-page)))
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;tsweb/html&lt;/code&gt; function[2] takes a data structure that represents HTML:&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;tsweb/html&lt;/code&gt; function takes a data structure that represents HTML:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ clj -m web.core
 &amp;lt;p&amp;gt;hello world&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
@@ -775,31 +921,27 @@ the &lt;code&gt;public&lt;/code&gt; directory on any static website host. I use 
 Pages and Netlify are other popular options.&lt;/p&gt;
 &lt;p&gt;You can also see &lt;a href=&quot;https://github.com/jacobobryant/site&quot;&gt;the source for this website&lt;/a&gt;
 for an example of creating a blog with Clojure.&lt;/p&gt;
-&lt;h3&gt;The road ahead&lt;/h3&gt;
-&lt;p&gt;I&apos;ll write more in the future, but next you should learn about Clojurescript and
-Reagent. (Re-frame is also common, but don&apos;t worry about that for now). Reagent
-is a wrapper over React that lets you use the same syntax for HTML and CSS that
-we&apos;ve used here.&lt;/p&gt;
-&lt;p&gt;After that, it&apos;ll be time to get into backend development. I&apos;ll write about
-simple ways to get started with that, and I&apos;ll cover getting started with
-&lt;a href=&quot;https://www.datomic.com&quot;&gt;Datomic&lt;/a&gt; as well, a database that embraces functional
-programming concepts (made by the creators of Clojure).&lt;/p&gt;
-&lt;p&gt;I&apos;ll also give some tips for using the available Clojure tooling. For one thing,
-you should install the parinfer plugin for Atom (&lt;code&gt;apm install parinfer&lt;/code&gt;). With
-parinfer, you don&apos;t need to type any closing parentheses. Just indent your code
-properly, and parinfer will infer the parentheses for you.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;Read more.&lt;/a&gt;&lt;/p&gt;
 &lt;br&gt;
 &lt;br&gt;
 &lt;br&gt;
 &lt;p&gt;&lt;strong&gt;Notes&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;[1] I don&apos;t actually use Atom myself, but I recommend it here because it&apos;s a
+&lt;p&gt;[1] There are three main build systems: Leiningen (Lein for short), Boot and
+tools.deps. &lt;code&gt;deps.edn&lt;/code&gt; is the configuration file used in tools.deps. Lein is
+the oldest and most popular. It has a large collection of pre-written build
+tasks. tools.deps is simpler and it&apos;s easier to write your own build tasks (the
+downside is you&apos;re more likely to have to write your own build tasks). I&apos;ve
+used Boot a little bit, but the immutable filesystem abstraction tended to get
+in the way for me. I default to tools.deps and use Lein only if there&apos;s a
+particular template already set up that I want to use.&lt;/p&gt;
+&lt;p&gt;[2] I don&apos;t actually use Atom myself, but I recommend it here because it&apos;s a
 mouse-friendly editor that has working autoindent for Clojure out of the box.&lt;/p&gt;
-&lt;p&gt;[2] &lt;a href=&quot;https://github.com/jacobobryant/trident&quot;&gt;trident/staticweb&lt;/a&gt;
+&lt;p&gt;[3] &lt;a href=&quot;https://github.com/jacobobryant/trident&quot;&gt;trident/staticweb&lt;/a&gt;
 is a simple library I&apos;ve made that wraps
 &lt;a href=&quot;https://github.com/weavejester/hiccup&quot;&gt;Hiccup&lt;/a&gt; and
 &lt;a href=&quot;https://github.com/noprompt/garden&quot;&gt;Garden&lt;/a&gt;, allowing you to write inline CSS à la
 &lt;a href=&quot;https://reagent-project.github.io/&quot;&gt;Reagent&lt;/a&gt;.&lt;/p&gt;
-</content></entry><entry><title>The Rationality of Faith</title><id>https://jacobobryant.com/post/2019/faith/</id><link href="https://jacobobryant.com/post/2019/faith/" /><updated>2019-08-24T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;Before we decide if something is true or not (e.g. &amp;quot;is there a God?&amp;quot;), we need
+</content><category term="clojure"></category></entry><entry><title>The Rationality of Faith</title><id>https://jacobobryant.com/post/2019/faith/</id><link href="https://jacobobryant.com/post/2019/faith/" /><updated>2019-08-24T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;Before we decide if something is true or not (e.g. &amp;quot;is there a God?&amp;quot;), we need
 to have some kind of process for deciding. So what is that process? I&apos;ll quote
 Steven Pinker:&lt;/p&gt;
 &lt;blockquote&gt;

@@ -1,15 +1,8 @@
-{:title "Learn Clojure with Web Dev", :date "2019-10-23"}
+{:title "First Steps With Clojure", :date "2019-10-23" :tags ["clojure"]}
 
-I've created this document so that I have a single link I can give people for
-learning Clojure. It is:
-
-- a work in progress
-- not meant to be comprehensive
-- opinionated/a reflection of how I do web development
-
-I'm trying to help people get started without being overwhelmed by all the
-different options. I'll link to existing resources when possible, adding my
-own as needed.
+This is a quick tutorial for writing your first Clojure program: a minimalist
+static site generator, which is a great way to start doing web dev. Part of
+[The Solo Hacker's Guide To Clojure](/post/2020/guide-to-clojure).
 
 Prerequisites:
 
@@ -49,9 +42,11 @@ alias repl='clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0
 
 #### Run from a file
 
-I recommend starting out with the [Atom](https://atom.io) text editor.[1] After you
-install it, create a new project folder. Within that folder, edit a new file
-`src/web/core.clj` with Atom. So your project folder should look like this:
+I recommend starting out with the [Atom](https://atom.io) text editor. You
+don't have to this right away, but before too long you should install the
+parinfer plugin (`apm install parinfer`). After you install Atom, create a new
+project folder. Within that folder, edit a new file `src/web/core.clj`. So your
+project folder should look like this:
 
 ```bash
 $ tree myproject/
@@ -81,8 +76,8 @@ hello world
 
 ### Start learning Clojure
 
-For actually learning the language, I recommend
-[Clojure for the Brave and True](https://www.braveclojure.com/clojure-for-the-brave-and-true/). (It's
+For actually learning the language, I recommend [Clojure for the Brave and
+True](https://www.braveclojure.com/clojure-for-the-brave-and-true/). (It's
 available online for free at that link, though I liked having a hard copy).
 
 You can skip chapters 1 and 2. Work through chapter 3 before going on to the
@@ -118,7 +113,7 @@ Change the contents of `core.clj` to this:
 (defn -main []
   (println (tsweb/html landing-page)))
 ```
-The `tsweb/html` function[2] takes a data structure that represents HTML:
+The `tsweb/html` function takes a data structure that represents HTML:
 ```bash
 $ clj -m web.core
 <p>hello world</p>
@@ -254,22 +249,7 @@ Pages and Netlify are other popular options.
 You can also see [the source for this website](https://github.com/jacobobryant/site)
 for an example of creating a blog with Clojure.
 
-### The road ahead
-
-I'll write more in the future, but next you should learn about Clojurescript and
-Reagent. (Re-frame is also common, but don't worry about that for now). Reagent
-is a wrapper over React that lets you use the same syntax for HTML and CSS that
-we've used here.
-
-After that, it'll be time to get into backend development. I'll write about
-simple ways to get started with that, and I'll cover getting started with
-[Datomic](https://www.datomic.com) as well, a database that embraces functional
-programming concepts (made by the creators of Clojure).
-
-I'll also give some tips for using the available Clojure tooling. For one thing,
-you should install the parinfer plugin for Atom (`apm install parinfer`). With
-parinfer, you don't need to type any closing parentheses. Just indent your code
-properly, and parinfer will infer the parentheses for you.
+[Read more.](/post/2020/guide-to-clojure)
 
 <br>
 <br>
@@ -277,10 +257,19 @@ properly, and parinfer will infer the parentheses for you.
 
 **Notes**
 
-[1] I don't actually use Atom myself, but I recommend it here because it's a
+[1] There are three main build systems: Leiningen (Lein for short), Boot and
+tools.deps. `deps.edn` is the configuration file used in tools.deps. Lein is
+the oldest and most popular. It has a large collection of pre-written build
+tasks. tools.deps is simpler and it's easier to write your own build tasks (the
+downside is you're more likely to have to write your own build tasks). I've
+used Boot a little bit, but the immutable filesystem abstraction tended to get
+in the way for me. I default to tools.deps and use Lein only if there's a
+particular template already set up that I want to use.
+
+[2] I don't actually use Atom myself, but I recommend it here because it's a
 mouse-friendly editor that has working autoindent for Clojure out of the box.
 
-[2] [trident/staticweb](https://github.com/jacobobryant/trident)
+[3] [trident/staticweb](https://github.com/jacobobryant/trident)
 is a simple library I've made that wraps
 [Hiccup](https://github.com/weavejester/hiccup) and
 [Garden](https://github.com/noprompt/garden), allowing you to write inline CSS à la
