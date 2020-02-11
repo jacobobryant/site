@@ -1,66 +1,215 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-02-04T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>The Solo Hacker's Guide To Clojure</title><id>https://jacobobryant.com/post/2020/guide-to-clojure/</id><link href="https://jacobobryant.com/post/2020/guide-to-clojure/" /><updated>2020-02-04T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;&lt;em&gt;This is a continuation of my previous post &amp;quot;Learn Clojure with Web Dev,&amp;quot; which
-I&apos;ve renamed to &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With Clojure&lt;/a&gt;. I&apos;ve moved
-some of the content from there to here, so I may sound like I&apos;m repeating myself
-a little if you&apos;ve read that previously.&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;This is the starting point for a series of articles I&apos;m planning to write. My
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-02-11T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Landing Pages With Clojure and Firebase</title><id>https://jacobobryant.com/post/2020/landing-pages/</id><link href="https://jacobobryant.com/post/2020/landing-pages/" /><updated>2020-02-11T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;This tutorial will demonstrate a workflow for creating a landing page (with
+email signup form) for a new project. Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To
+Clojure&lt;/a&gt;. Prerequisites:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With Clojure&lt;/a&gt;, OR&lt;/li&gt;
+&lt;li&gt;A basic understanding of Clojure fundamentals and tools.deps, and
+a basic Clojure development environment set up.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Clone the &lt;a href=&quot;https://github.com/jacobobryant/mystery-cows&quot;&gt;Mystery Cows&lt;/a&gt;
+repository and checkout the &lt;code&gt;landing-page&lt;/code&gt; branch. Run &lt;code&gt;./task setup&lt;/code&gt; to
+install a couple npm deps (if you don&apos;t have npm installed, do that first).
+Then run &lt;code&gt;./task dev live&lt;/code&gt; to start a development server.&lt;/p&gt;
+&lt;p&gt;(I&apos;m going to assume your environment has the ability to run shell scripts. I
+figure this is a reasonable assumption since Windows 10 has the Windows
+Subsystem for Linux. But if you can&apos;t run shell scripts, you can just look
+inside the files and run the individual commands yourself. I won&apos;t be doing
+much shell scripting anyway.)&lt;/p&gt;
+&lt;p&gt;A landing page (&lt;a href=&quot;https://cows.jacobobryant.com&quot;&gt;like this one&lt;/a&gt;) should open in
+your web browser. Whenever  a Clojure file changes on disk, the task we ran
+will regenerate the &lt;code&gt;public/index.html&lt;/code&gt; file and reload the page in your web
+browser. Try it out: open &lt;code&gt;src/cows/core.clj&lt;/code&gt; and change the nav bar so it says
+&amp;quot;Mystery Sows&amp;quot; instead of &amp;quot;Mystery Cows&amp;quot; (which is a &lt;a href=&quot;https://www.nationalhogfarmer.com/animal-health/increase-us-sow-mortality-real-mystery&quot;&gt;real
+thing&lt;/a&gt;
+in case you&apos;re wondering).&lt;/p&gt;
+&lt;p&gt;(By the way, the email form will give you console errors if you try to use it
+because it has a Firebase dependency which we haven&apos;t set up yet. More on that
+later.)&lt;/p&gt;
+&lt;p&gt;Let&apos;s open the code.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/landing-page/src/cows/core.clj&quot;&gt;&lt;code&gt;src/cows/core.clj&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This file uses &lt;a href=&quot;https://github.com/tonsky/rum#server-side-rendering&quot;&gt;Rum server-side
+rendering&lt;/a&gt; to generate the
+html. Things you may not have seen yet:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://kimh.github.io/clojure-by-example/#for&quot;&gt;&lt;code&gt;(for ...)&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://clojure.org/guides/destructuring&quot;&gt;destructuring&lt;/a&gt; (both sequential and associative)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/landing-page/deps.edn&quot;&gt;&lt;code&gt;deps.edn&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Always worth a look.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/landing-page/task&quot;&gt;&lt;code&gt;task&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Note that &lt;code&gt;clj -m cows.core&lt;/code&gt; calls the &lt;code&gt;-main&lt;/code&gt; function from &lt;code&gt;src/cows/core.clj&lt;/code&gt;.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Now, create a separate project for your own landing page:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Set up a skeleton for the project. Copy over &lt;code&gt;deps.edn&lt;/code&gt; and &lt;code&gt;task&lt;/code&gt;, then
+add a bare-bones &lt;code&gt;src/yourproject/core.clj&lt;/code&gt; file with just a &amp;quot;hello world&amp;quot;
+div. Also include a head section with the title and meta elements. Run the
+dev server and make sure it works.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Generate a favicon (&lt;a href=&quot;https://favicon.io&quot;&gt;favicon.io&lt;/a&gt;). Place the generated
+files in &lt;code&gt;public/&lt;/code&gt; and link to them from &lt;code&gt;yourproject.core&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Add Bootstrap with custom brand colors.&lt;/p&gt;
+&lt;p&gt;Use &lt;a href=&quot;https://coolors.co/app&quot;&gt;coolers.co&lt;/a&gt; to generate a primary and a
+secondary color, then enter those colors into &lt;a href=&quot;https://pikock.github.io/bootstrap-magic/app/index.html#!/editor&quot;&gt;Bootstrap
+Magic&lt;/a&gt;
+(under Brand Colors -&amp;gt; &lt;code&gt;$theme-colors&lt;/code&gt;). Tweak the colors as needed.&lt;/p&gt;
+&lt;p&gt;Once that&apos;s done, save the file to &lt;code&gt;public/css/bootstrap.css&lt;/code&gt; and link to it from
+&lt;code&gt;yourproject.core&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Write the HTML/CSS in &lt;code&gt;cows.core&lt;/code&gt;. You could do it from scratch without too
+much effort, but I searched for &amp;quot;free bootstrap themes&amp;quot; and ended up on
+&lt;a href=&quot;https://startbootstrap.com/themes/landing-page/&quot;&gt;this one&lt;/a&gt;. If you take that route,
+use &lt;a href=&quot;https://htmltohiccup.herokuapp.com/&quot;&gt;this site&lt;/a&gt; to convert the HTML to Clojure
+data structures. Wrap the output in a &lt;code&gt;(defc landing-page [] ...)&lt;/code&gt; as in &lt;code&gt;cows.core&lt;/code&gt;.
+You&apos;ll have to do a little editing.&lt;/p&gt;
+&lt;p&gt;For one thing, Rum is slightly different from
+&lt;a href=&quot;https://github.com/weavejester/hiccup&quot;&gt;Hiccup&lt;/a&gt;. Hiccup uses only strings
+for inline CSS, so you can&apos;t write something like &lt;code&gt;[:p {:style {:background-color &amp;quot;green&amp;quot;}} ...]&lt;/code&gt;. Instead, you&apos;d have to write &lt;code&gt;[:p {:style &amp;quot;background-color: green;&amp;quot;}]&lt;/code&gt;. Rum is the opposite way, so if you
+get any compilation errors, you may need to convert the strings to maps
+by hand.&lt;/p&gt;
+&lt;p&gt;Also stick any images and CSS files from the theme you copied somewhere
+under &lt;code&gt;public/&lt;/code&gt;, adding the appropriate links to the head section. I&apos;d
+recommend rewriting the CSS into &lt;code&gt;yourproject.core&lt;/code&gt; in most cases, but some
+things (like media queries) can&apos;t be written inline, so feel free to leave
+those in a separate CSS file. (See
+&lt;a href=&quot;https://github.com/noprompt/garden&quot;&gt;Garden&lt;/a&gt; if you want a 100% Clojure solution.)&lt;/p&gt;
+&lt;p&gt;Finally, you can break up the HTML structures into separate variables and
+components like I&apos;ve done in &lt;code&gt;cows.core&lt;/code&gt;. For example, the &amp;quot;testimonial
+items&amp;quot; were originally three separate blocks of HTML, but I consolidated
+them into a component and a &lt;code&gt;for&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;For stock photos, I recommend &lt;a href=&quot;https://pexels.com&quot;&gt;pexels.com&lt;/a&gt; (that&apos;s
+where I got all the cows).&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Once your landing page is looking good, the next step is to make the signup form
+actually work. We&apos;ll need to set up Firebase as we&apos;ll be using that for storing
+the email addresses (and for hosting).&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Go to &lt;a href=&quot;https://firebase.google.com&quot;&gt;firebase.google.com&lt;/a&gt; and set up a new project.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;From that website, create a Firestore database. After it&apos;s provisioned,
+click &amp;quot;Start collection&amp;quot; and set the ID to &lt;code&gt;signups&lt;/code&gt;. Add a single string
+field called &lt;code&gt;email&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Follow &lt;a href=&quot;https://firebase.google.com/docs/cli&quot;&gt;this guide&lt;/a&gt; to install the
+Firebase CLI. Once you get past the &lt;code&gt;firebase login&lt;/code&gt; part, run &lt;code&gt;firebase init firestore&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Replace the the new &lt;code&gt;firestore.rules&lt;/code&gt; file with the one from Mystery Cows.
+Those rules will let your signup form add new email addresses, and it will
+prevent users from reading or modifying the saved addresses. Run
+&lt;code&gt;firebase deploy --only firestore:rules&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;In &lt;code&gt;cows.core&lt;/code&gt;, you&apos;ll notice three Firebase &lt;code&gt;:script&lt;/code&gt; elements. Add those
+elements to &lt;code&gt;yourproject.core&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;:src&lt;/code&gt; values are special &amp;quot;Hosting URLs&amp;quot; that Firebase can use to add
+the dependencies for you along with project-specific configuration. See
+&lt;a href=&quot;https://firebase.google.com/docs/web/setup&quot;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Run &lt;code&gt;./task dev&lt;/code&gt; (not &lt;code&gt;./task dev live&lt;/code&gt;). This will serve your app using
+the Firebase dev server instead of the npm live server. This is necessary
+so that the Hosting URLs will work. Unfortunately, you&apos;ll have to manually
+refresh the page whenever you regenerate the &lt;code&gt;index.html&lt;/code&gt; file.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Now all that&apos;s left is to hook up some JS to your signup form and then deploy
+the landing page. See &lt;code&gt;public/js/main.js&lt;/code&gt; and the signup form elements in
+&lt;code&gt;cows.core&lt;/code&gt; to see how I did the former. Once you set that up, test out the
+signup form. You can check the Firebase console to make sure that the email was
+saved.&lt;/p&gt;
+&lt;p&gt;Finally, run &lt;code&gt;firebase init hosting&lt;/code&gt; and then &lt;code&gt;firebase deploy&lt;/code&gt;. Your landing
+page should be live. You can hook up a custom domain now if you want, or just
+use one of the provided domains. Later, when you set up a mailing list, you can
+import the emails you get from Firebase. (I use Mailgun with some custom code
+myself, but Firebase somewhat recently made a convenient extension for adding
+new users to Mailchimp, so that could be a decent option. We&apos;ll go more into
+that eventually.)&lt;/p&gt;
+&lt;p&gt;Next time, we&apos;ll learn how to add Firebase authentication, React and
+ClojureScript to your app.&lt;/p&gt;
+</content><category term="clojure"></category></entry><entry><title>The Solo Hacker's Guide To Clojure</title><id>https://jacobobryant.com/post/2020/guide-to-clojure/</id><link href="https://jacobobryant.com/post/2020/guide-to-clojure/" /><updated>2020-02-04T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;This is the starting point for a series of articles I&apos;m currently writing. My
 target audience is people who want to use Clojure for side projects or new
 startups—i.e. I&apos;m trying to help fellow solo hackers learn to bring new
-ideas to the MVP stage quickly, and my recommendations will be made accordingly.&lt;/p&gt;
-&lt;p&gt;This will also be an opinionated guide which teaches how I personally do web +
-mobile development. Rather than give an overview of X, Y and Z, I&apos;ll say &amp;quot;use
-X&amp;quot; and include a footnote that compares X to other options. I want you to feel
-the leverage that can come from Clojure as soon as possible, without having to
-wade through the jungle first.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;mailto:a@jacobobryant.com&quot;&gt;Please let me know&lt;/a&gt; what topics you&apos;d like me to
-write about. I&apos;d love to hear what things you&apos;re trying to learn and build. I&apos;m
-not an expert by any means, but I&apos;ve been doing Clojure full-time for over a
-year now at least. And I recently started a habit of writing every Monday, so
-I&apos;m hoping to make consistent progress on this.&lt;/p&gt;
-&lt;!--
-And one final note to ease my imposter syndrome: I don&apos;t pretend to be a huge
-Clojure expert. However, I have been using Clojure in side projects since 2016
-and full-time as a startup founder/bum since January 2019, and I genuinely love
-figuring out the simplest ways to do application development. For those of you
-further along than me, I&apos;d be happy to hear your recommendations.
---&gt;
-&lt;h3&gt;Roadmap&lt;/h3&gt;
-&lt;p&gt;I&apos;m doing this breadth-first. Currently, what follows is mostly just an outline
-of what I&apos;m planning to write.&lt;/p&gt;
-&lt;h4&gt;1. Language fundamentals&lt;/h4&gt;
+ideas to the MVP stage quickly. This involves different tradeoffs from learning
+Clojure with the intent to join an established team.&lt;/p&gt;
+&lt;h4&gt;Syllabus&lt;/h4&gt;
+&lt;p&gt;This will also be an opinionated guide which teaches how I personally do web
+development. Rather than give an overview of X, Y and Z, I&apos;ll say &amp;quot;use X&amp;quot; and
+include a footnote that compares X to other options. I want you to feel the
+leverage that can come from Clojure as soon as possible, without having to wade
+through the jungle first.&lt;/p&gt;
+&lt;p&gt;This guide is breadth-first. There are many components in the Clojure
+ecosystem, and my goal is to show you how to put them together, not necessarily
+to teach you how the individual components work (there&apos;s usually already good
+documentation for that). I&apos;ll sometimes give links to relevant resources, but
+I&apos;d also advise you to search out other resources on your own as you have
+questions. At least you&apos;ll have an idea of which questions to ask.
+&lt;code&gt;:slightly_smiling_face:&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Along with this guide, I&apos;ll be developing a web application called
+&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows&quot;&gt;Mystery Cows&lt;/a&gt;, a cow-themed version
+of the board game Clue. Most articles will have you follow this pattern:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;&lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With Clojure&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Checkout a particular branch from the Mystery Cows repository.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;As recommended in that link, work through chapters 3, 4 and 5 of &lt;a href=&quot;https://www.braveclojure.com/clojure-for-the-brave-and-true/&quot;&gt;Clojure for
-the Brave and
-True&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Study and tinker with the code. Learn how it works on your own if you can.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Also see Yogthos&apos;s &lt;a href=&quot;https://gist.github.com/yogthos/be323be0361c589570a6da4ccc85f58f&quot;&gt;Clojure beginner
-resources&lt;/a&gt;
-and see if there&apos;s anything that tickles your fancy.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;Do interactive exercises on &lt;a href=&quot;https://www.4clojure.com&quot;&gt;4clojure&lt;/a&gt; until you
-start to get a feel for things.&lt;/p&gt;
+&lt;p&gt;With guidance from the article, add features to your own project that
+involve the things being taught.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;p&gt;For the rest of this guide, decide on a web application you&apos;d like to build. If
-you need ideas, I think board games are great since they involve complex logic
-(not just CRUD), it&apos;s easy to be a genuine user yourself, you end up with
-something that&apos;s easy to show off, and you can go on to extend it with an AI if
-you like.&lt;/p&gt;
-&lt;h4&gt;2. Frontend development&lt;/h4&gt;
-&lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
+&lt;p&gt;(In fact, I&apos;m hoping that the example code I write is more useful than the
+articles themselves.)&lt;/p&gt;
+&lt;p&gt;So you&apos;ll need to pick a web app to build yourself. If you need ideas, I think
+board games are great since they&apos;re easy to think of, they&apos;re interesting/they
+involve complex logic (not just CRUD), it&apos;s easy to be a genuine user yourself,
+you end up with something that&apos;s easy to show off, and you can go on to extend
+them with an AI if you like.&lt;/p&gt;
+&lt;h4&gt;Feedback&lt;/h4&gt;
+&lt;p&gt;As I write, I&apos;ll need feedback from people learning Clojure so I can prioritize
+what to revise. I also appreciate suggestions from experienced Clojurists. I&apos;ve
+created &lt;code&gt;#solo-hackers-guide&lt;/code&gt; on &lt;a href=&quot;http://clojurians.net/&quot;&gt;Clojurians Slack&lt;/a&gt; for
+this purpose. &lt;a href=&quot;mailto:a@jacobobryant.com&quot;&gt;Email&lt;/a&gt; is good too.&lt;/p&gt;
+&lt;h4&gt;Changelog&lt;/h4&gt;
+&lt;p&gt;You can &lt;a href=&quot;https://tinyletter.com/jacobobryant&quot;&gt;subscribe&lt;/a&gt; for notifications.&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Make a &amp;quot;Coming soon&amp;quot; landing page for your app. Include an email signup form
-using JS + Firebase Firestore for persistence. No ClojureScript yet; we&apos;ll just use
-Clojure to generate the HTML files. Use Bootstrap for styling unless you
-already have another CSS toolkit you like. Deploy with Firebase Hosting. Tell
-all your friends to sign up.&lt;/p&gt;
+&lt;p&gt;11 Feb 2020: Add &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing Pages&lt;/a&gt;. Revise &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First
+Steps&lt;/a&gt;, including replacing trident.staticweb
+with Rum. Add Syllabus, Feedback and Changelog sections to this page. Also
+&lt;code&gt;s/Crux/Datomic Cloud/&lt;/code&gt; in the TODOs.&lt;/p&gt;
 &lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;4 Feb 2020: Add this page.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;23 Oct 2019: Add &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;1. Language fundamentals&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;TODO: write my own &amp;quot;Why Clojure?&amp;quot; article&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h4&gt;2. Frontend development&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing Pages&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
+&lt;ul&gt;
 &lt;li&gt;
 &lt;p&gt;Add a login form with Firebase Authentication. Set up ClojureScript with
 Shadow CLJS. Create a basic welcome page with Rum. Add CRUD operations,
@@ -82,18 +231,18 @@ Functions + Firestore and when it makes sense to move to a Clojure backend
 instead.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Set up a Clojure backend with DigitalOcean, Crux and managed Postgres.
-Probably Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync
-(maybe Github Actions?). Set up logging and alerting (optionally, come back to
-this step later).&lt;/p&gt;
+&lt;p&gt;Set up a Clojure backend with DigitalOcean and Datomic Cloud. Probably
+Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync (maybe
+Github Actions?). Set up logging and alerting (optionally, come back to this
+step later).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Set up communication between your frontend and backend. Add Ring middleware
-for authenticating Firebase tokens. Move your CRUD from Firestore to Crux,
+for authenticating Firebase tokens. Move your CRUD from Firestore to Datomic,
 using a rules system so you don&apos;t get a proliferation of endpoints. Use
 Firebase Storage (or maybe DigitalOcean Spaces?) for BLOB storage, with
-foreign keys stored in Crux (and utility fns for making it look like
-everything&apos;s in Crux).&lt;/p&gt;
+foreign keys stored in Datomic (and utility fns for making it look like
+everything&apos;s in Datomic).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Learn about system management with Integrant (or maybe just roll your own).&lt;/p&gt;
@@ -107,26 +256,6 @@ in your code without having to spend much time writing tests.&lt;/p&gt;
 &lt;p&gt;Consume 3rd party APIs, including things like Oauth, caching and
 self-throttling. Set up cron jobs. Provide a pagination API for your frontend.
 Any other stuff I can think of that might be useful.&lt;/p&gt;
-&lt;/li&gt;
-&lt;li&gt;
-&lt;p&gt;MAYBE: use Datomic Ions instead of Crux. Ions are actually what I&apos;m familiar
-with; I&apos;ve never used Crux. But I&apos;ve had enough headaches from Ions/AWS that I
-don&apos;t think the overhead is worth it for solo hackers. Plus, you have to use
-the solo topology for production (which is unsupported) until your app has
-enough traction to warrant a pair of i3.large instances (on the order of a few
-hundred bucks/month). Solo topology means no direct HTTP/dealing with lambda
-warmup times and, more importantly, deploys that often require 5-30 minutes of
-downtime (in my experience). On the other hand, I believe I&apos;ve worked through
-most of the quirks of Ions, so maybe it&apos;d be useful if I wrote an article
-about it.&lt;/p&gt;
-&lt;p&gt;Another option is using Datomic On-Prem with DigitalOcean. That would make it
-easier to migrate to Ions later on. I&apos;ll evaluate Crux vs. On-Prem when I get
-to this point in the course.&lt;/p&gt;
-&lt;p&gt;(Also, there is Datomic Cloud without Ions. However, you have to give up
-data/code locality which I consider a killer feature. It&apos;s been especially
-helpful to me in building recommender systems, but even for just CRUD, having
-data/code locality makes it easier to introduce abstractions. I probably would
-only use Cloud without Ions for one-off services.)&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 &lt;h4&gt;4. Miscellanea&lt;/h4&gt;
@@ -147,6 +276,9 @@ this article throughout the course).&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;Tooling for the enlightened: learn Vim and set it up for Clojure. For the
 really enlightened: use Dvorak instead of Qwerty (ok, just kidding, sorta).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Mobile app primer: create a basic app with CLJS + React Native.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
 </content><category term="clojure"></category></entry><entry><title>Weeklyish update #2</title><id>https://jacobobryant.com/blog/2020-01-27/</id><link href="https://jacobobryant.com/blog/2020-01-27/" /><updated>2020-01-27T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;&lt;a href=&quot;https://findka.com&quot;&gt;Findka&lt;/a&gt; has one milestone left before launch. I&apos;ve finished the &amp;quot;gathering data&amp;quot;
@@ -718,12 +850,11 @@ it works, Lagukan will likely make a good complementary product down the rode.
 I&apos;ll keep my fingers crossed.&lt;/p&gt;
 </content></entry><entry><title>First Steps With Clojure</title><id>https://jacobobryant.com/post/2019/learn-clojure/</id><link href="https://jacobobryant.com/post/2019/learn-clojure/" /><updated>2019-10-23T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;This is a quick tutorial for writing your first Clojure program: a minimalist
 static site generator, which is a great way to start doing web dev. Part of
-&lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To Clojure&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;Prerequisites:&lt;/p&gt;
+&lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To Clojure&lt;/a&gt;. Prerequisites:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;basic terminal experience&lt;/li&gt;
-&lt;li&gt;comfortable with HTML and CSS&lt;/li&gt;
-&lt;li&gt;know a different programming language already&lt;/li&gt;
+&lt;li&gt;Basic terminal experience&lt;/li&gt;
+&lt;li&gt;Comfortable with HTML and CSS&lt;/li&gt;
+&lt;li&gt;Know a different programming language already&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h3&gt;Hello world&lt;/h3&gt;
 &lt;p&gt;First, &lt;a href=&quot;https://clojure.org/guides/getting_started&quot;&gt;install Clojure&lt;/a&gt;. Then type
@@ -750,9 +881,9 @@ user=&amp;gt;
 &lt;h4&gt;Run from a file&lt;/h4&gt;
 &lt;p&gt;I recommend starting out with the &lt;a href=&quot;https://atom.io&quot;&gt;Atom&lt;/a&gt; text editor. You
 don&apos;t have to this right away, but before too long you should install the
-parinfer plugin (&lt;code&gt;apm install parinfer&lt;/code&gt;). After you install Atom, create a new
-project folder. Within that folder, edit a new file &lt;code&gt;src/web/core.clj&lt;/code&gt;. So your
-project folder should look like this:&lt;/p&gt;
+parinfer plugin (&lt;code&gt;apm install parinfer&lt;/code&gt;) and learn how it works. After you
+install Atom, create a new project folder. Within that folder, edit a new file
+&lt;code&gt;src/web/core.clj&lt;/code&gt;. Your project folder should look like this:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ tree myproject/
 myproject/
 └── src
@@ -783,33 +914,43 @@ everything in chapters 4 and 5. These three chapters contain the fundamentals of
 the language.&lt;/p&gt;
 &lt;p&gt;All of the remaining chapters are useful too. Make sure you understand them
 eventually. But for now, you can just skim them a bit and refer back as needed.&lt;/p&gt;
+&lt;p&gt;Some more good resources include:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://kimh.github.io/clojure-by-example/&quot;&gt;Clojure by example&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://www.4clojure.com&quot;&gt;4clojure&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://clojuredocs.org&quot;&gt;ClojureDocs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;http://clojurians.net/&quot;&gt;Clojurians Slack&lt;/a&gt; (see #solo-hackers-guide and #beginners, and feel free
+to DM me)&lt;/li&gt;
+&lt;li&gt;Yogthos&apos;s &lt;a href=&quot;https://gist.github.com/yogthos/be323be0361c589570a6da4ccc85f58f&quot;&gt;Clojure beginner resources&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 &lt;h3&gt;Start doing web dev&lt;/h3&gt;
 &lt;p&gt;I&apos;ll now show you the first fundamental of web development: how to generate
-HTML and CSS. We&apos;ll create a static landing page. This is a great first project
-because it&apos;s pretty simple, and generating HTML + CSS is much nicer in Clojure
-than in any other language. You could even extend this project into a personal
-blog/website if you like (this website is written with Clojure).&lt;/p&gt;
+HTML and CSS. This is a great first project because it&apos;s pretty simple, and
+generating HTML + CSS is much nicer in Clojure than in any other language. It&apos;s
+not too hard to extend this into a personal blog/website if you like (this
+website is written with Clojure).&lt;/p&gt;
 &lt;p&gt;We need to add a library to your project. Create a file &lt;code&gt;myproject/deps.edn&lt;/code&gt;
 with the following contents:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;{:deps
- {trident/staticweb {:mvn/version &amp;quot;0.1.18&amp;quot;}}}
+ {rum {:mvn/version &amp;quot;0.11.4&amp;quot;
+       :exclusions [cljsjs/react cljsjs/react-dom]}}}
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Change the contents of &lt;code&gt;core.clj&lt;/code&gt; to this:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(ns web.core
-  (:require [trident.staticweb :as tsweb]))
+  (:require [rum.core :as rum :refer [defc]]))
 
-(def landing-page
+(defc page []
   [:p &amp;quot;hello world&amp;quot;])
 
 (defn -main []
-  (println (tsweb/html landing-page)))
+  (println (rum/render-static-markup (page))))
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The &lt;code&gt;tsweb/html&lt;/code&gt; function takes a data structure that represents HTML:&lt;/p&gt;
+&lt;p&gt;Now run it:&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ clj -m web.core
 &amp;lt;p&amp;gt;hello world&amp;lt;/p&amp;gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;We can add inline css like so:&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(def landing-page
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defc page []
   [:p {:style {:color &amp;quot;red&amp;quot;}} &amp;quot;hello world&amp;quot;])
 &lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ clj -m web.core
@@ -818,10 +959,10 @@ with the following contents:&lt;/p&gt;
 &lt;p&gt;Because we&apos;re using plain data structures for both HTML and CSS, we can use
 functional abstraction and other standard programming techniques instead of
 dealing with templating languages or preprocessors. (Hallelujah).&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defn p [color text]
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defc p [color text]
   [:p {:style {:color color}} text])
 
-(def landing-page
+(defc page []
   [:div
    (p &amp;quot;red&amp;quot; &amp;quot;hello world&amp;quot;)
    (p &amp;quot;blue&amp;quot; &amp;quot;goodnight moon&amp;quot;)])
@@ -835,7 +976,7 @@ dealing with templating languages or preprocessors. (Hallelujah).&lt;/p&gt;
 &lt;p&gt;(Indentation added).&lt;/p&gt;
 &lt;p&gt;Let&apos;s make this a little more complete, and let&apos;s have it write the HTML to a file
 for us.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(def landing-page
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defc page []
   [:html
    [:head
     [:meta {:charset &amp;quot;utf-8&amp;quot;}]]
@@ -845,7 +986,7 @@ for us.&lt;/p&gt;
      (p &amp;quot;blue&amp;quot; &amp;quot;goodnight moon&amp;quot;)]]])
 
 (defn -main []
-  (spit &amp;quot;public/index.html&amp;quot; (tsweb/html landing-page)))
+  (spit &amp;quot;public/index.html&amp;quot; (rum/render-static-markup (page))))
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Before running this, you&apos;ll need to create the &lt;code&gt;public&lt;/code&gt; directory.&lt;/p&gt;
 &lt;pre&gt;&lt;code class=&quot;language-bash&quot;&gt;$ mkdir public
@@ -876,7 +1017,7 @@ later when the time is right.&lt;/p&gt;
 &lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Regenerate the HTML and test out the button before we move on.&lt;/p&gt;
 &lt;p&gt;Let&apos;s separate the Javascript into a separate file.&lt;/p&gt;
-&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(def landing-page
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defc page []
   [:html
    [:head
     [:meta {:charset &amp;quot;utf-8&amp;quot;}]
@@ -900,7 +1041,7 @@ later when the time is right.&lt;/p&gt;
           :integrity &amp;quot;sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T&amp;quot;
           :crossorigin &amp;quot;anonymous&amp;quot;}])
 
-(def landing-page
+(defc page []
   [:html
    [:head
     [:meta {:charset &amp;quot;utf-8&amp;quot;}]
@@ -912,16 +1053,9 @@ later when the time is right.&lt;/p&gt;
      (p &amp;quot;blue&amp;quot; &amp;quot;goodnight moon&amp;quot;)
      [:button.btn.btn-primary {:onclick &amp;quot;doSomething()&amp;quot;} &amp;quot;click me&amp;quot;]]]])
 &lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Boom. Now you&apos;re all set to make a sweet landing page for your new
-product/consulting business/dog. I&apos;ll let you finish that on your own, but you
-can take a look at the code for &lt;a href=&quot;https://github.com/jacobobryant/clj-landing-page-example&quot;&gt;my startup&apos;s landing
-page&lt;/a&gt; for inspiration
-(yes, this whole document is just an advertisement). You can put
-the &lt;code&gt;public&lt;/code&gt; directory on any static website host. I use Firebase, but Github
-Pages and Netlify are other popular options.&lt;/p&gt;
-&lt;p&gt;You can also see &lt;a href=&quot;https://github.com/jacobobryant/site&quot;&gt;the source for this website&lt;/a&gt;
-for an example of creating a blog with Clojure.&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;Read more.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Boom. Now you can handle all your HTML needs with panache. As mentioned before,
+these few fundamentals are enough to go quite far with static site generation.&lt;/p&gt;
+&lt;p&gt;Next, learn to make full-featured &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing Pages&lt;/a&gt;.&lt;/p&gt;
 &lt;br&gt;
 &lt;br&gt;
 &lt;br&gt;
@@ -936,11 +1070,6 @@ in the way for me. I default to tools.deps and use Lein only if there&apos;s a
 particular template already set up that I want to use.&lt;/p&gt;
 &lt;p&gt;[2] I don&apos;t actually use Atom myself, but I recommend it here because it&apos;s a
 mouse-friendly editor that has working autoindent for Clojure out of the box.&lt;/p&gt;
-&lt;p&gt;[3] &lt;a href=&quot;https://github.com/jacobobryant/trident&quot;&gt;trident/staticweb&lt;/a&gt;
-is a simple library I&apos;ve made that wraps
-&lt;a href=&quot;https://github.com/weavejester/hiccup&quot;&gt;Hiccup&lt;/a&gt; and
-&lt;a href=&quot;https://github.com/noprompt/garden&quot;&gt;Garden&lt;/a&gt;, allowing you to write inline CSS à la
-&lt;a href=&quot;https://reagent-project.github.io/&quot;&gt;Reagent&lt;/a&gt;.&lt;/p&gt;
 </content><category term="clojure"></category></entry><entry><title>The Rationality of Faith</title><id>https://jacobobryant.com/post/2019/faith/</id><link href="https://jacobobryant.com/post/2019/faith/" /><updated>2019-08-24T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;Before we decide if something is true or not (e.g. &amp;quot;is there a God?&amp;quot;), we need
 to have some kind of process for deciding. So what is that process? I&apos;ll quote
 Steven Pinker:&lt;/p&gt;

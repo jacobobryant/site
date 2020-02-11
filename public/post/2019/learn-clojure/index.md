@@ -2,13 +2,11 @@
 
 This is a quick tutorial for writing your first Clojure program: a minimalist
 static site generator, which is a great way to start doing web dev. Part of
-[The Solo Hacker's Guide To Clojure](/post/2020/guide-to-clojure).
+[The Solo Hacker's Guide To Clojure](/post/2020/guide-to-clojure). Prerequisites:
 
-Prerequisites:
-
-- basic terminal experience
-- comfortable with HTML and CSS
-- know a different programming language already
+- Basic terminal experience
+- Comfortable with HTML and CSS
+- Know a different programming language already
 
 ### Hello world
 
@@ -44,9 +42,9 @@ alias repl='clojure -Sdeps "{:deps {com.bhauman/rebel-readline {:mvn/version \"0
 
 I recommend starting out with the [Atom](https://atom.io) text editor. You
 don't have to this right away, but before too long you should install the
-parinfer plugin (`apm install parinfer`). After you install Atom, create a new
-project folder. Within that folder, edit a new file `src/web/core.clj`. So your
-project folder should look like this:
+parinfer plugin (`apm install parinfer`) and learn how it works. After you
+install Atom, create a new project folder. Within that folder, edit a new file
+`src/web/core.clj`. Your project folder should look like this:
 
 ```bash
 $ tree myproject/
@@ -88,39 +86,49 @@ the language.
 All of the remaining chapters are useful too. Make sure you understand them
 eventually. But for now, you can just skim them a bit and refer back as needed.
 
+Some more good resources include:
+
+ - [Clojure by example](https://kimh.github.io/clojure-by-example/)
+ - [4clojure](http://www.4clojure.com)
+ - [ClojureDocs](https://clojuredocs.org)
+ - [Clojurians Slack](http://clojurians.net/) (see #solo-hackers-guide and #beginners, and feel free
+   to DM me)
+ - Yogthos's [Clojure beginner resources](https://gist.github.com/yogthos/be323be0361c589570a6da4ccc85f58f)
+
 ### Start doing web dev
 
 I'll now show you the first fundamental of web development: how to generate
-HTML and CSS. We'll create a static landing page. This is a great first project
-because it's pretty simple, and generating HTML + CSS is much nicer in Clojure
-than in any other language. You could even extend this project into a personal
-blog/website if you like (this website is written with Clojure).
+HTML and CSS. This is a great first project because it's pretty simple, and
+generating HTML + CSS is much nicer in Clojure than in any other language. It's
+not too hard to extend this into a personal blog/website if you like (this
+website is written with Clojure).
 
 We need to add a library to your project. Create a file `myproject/deps.edn`
 with the following contents:
 ```clojure
 {:deps
- {trident/staticweb {:mvn/version "0.1.18"}}}
+ {rum {:mvn/version "0.11.4"
+       :exclusions [cljsjs/react cljsjs/react-dom]}}}
 ```
 Change the contents of `core.clj` to this:
 ```clojure
 (ns web.core
-  (:require [trident.staticweb :as tsweb]))
+  (:require [rum.core :as rum :refer [defc]]))
 
-(def landing-page
+(defc page []
   [:p "hello world"])
 
 (defn -main []
-  (println (tsweb/html landing-page)))
+  (println (rum/render-static-markup (page))))
 ```
-The `tsweb/html` function takes a data structure that represents HTML:
+Now run it:
 ```bash
 $ clj -m web.core
 <p>hello world</p>
 ```
 We can add inline css like so:
 ```clojure
-(def landing-page
+(defc page []
   [:p {:style {:color "red"}} "hello world"])
 ```
 ```bash
@@ -131,10 +139,10 @@ Because we're using plain data structures for both HTML and CSS, we can use
 functional abstraction and other standard programming techniques instead of
 dealing with templating languages or preprocessors. (Hallelujah).
 ```clojure
-(defn p [color text]
+(defc p [color text]
   [:p {:style {:color color}} text])
 
-(def landing-page
+(defc page []
   [:div
    (p "red" "hello world")
    (p "blue" "goodnight moon")])
@@ -151,7 +159,7 @@ $ clj -m web.core
 Let's make this a little more complete, and let's have it write the HTML to a file
 for us.
 ```clojure
-(def landing-page
+(defc page []
   [:html
    [:head
     [:meta {:charset "utf-8"}]]
@@ -161,7 +169,7 @@ for us.
      (p "blue" "goodnight moon")]]])
 
 (defn -main []
-  (spit "public/index.html" (tsweb/html landing-page)))
+  (spit "public/index.html" (rum/render-static-markup (page))))
 ```
 Before running this, you'll need to create the `public` directory.
 ```bash
@@ -198,7 +206,7 @@ Regenerate the HTML and test out the button before we move on.
 
 Let's separate the Javascript into a separate file.
 ```clojure
-(def landing-page
+(defc page []
   [:html
    [:head
     [:meta {:charset "utf-8"}]
@@ -225,7 +233,7 @@ Next, let's add some [Bootstrap](https://getbootstrap.com) to make CSS easier.
           :integrity "sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
           :crossorigin "anonymous"}])
 
-(def landing-page
+(defc page []
   [:html
    [:head
     [:meta {:charset "utf-8"}]
@@ -238,18 +246,10 @@ Next, let's add some [Bootstrap](https://getbootstrap.com) to make CSS easier.
      [:button.btn.btn-primary {:onclick "doSomething()"} "click me"]]]])
 ```
 
-Boom. Now you're all set to make a sweet landing page for your new
-product/consulting business/dog. I'll let you finish that on your own, but you
-can take a look at the code for [my startup's landing
-page](https://github.com/jacobobryant/clj-landing-page-example) for inspiration
-(yes, this whole document is just an advertisement). You can put
-the `public` directory on any static website host. I use Firebase, but Github
-Pages and Netlify are other popular options.
+Boom. Now you can handle all your HTML needs with panache. As mentioned before,
+these few fundamentals are enough to go quite far with static site generation.
 
-You can also see [the source for this website](https://github.com/jacobobryant/site)
-for an example of creating a blog with Clojure.
-
-[Read more.](/post/2020/guide-to-clojure)
+Next, learn to make full-featured [Landing Pages](/post/2020/landing-pages).
 
 <br>
 <br>
@@ -268,9 +268,3 @@ particular template already set up that I want to use.
 
 [2] I don't actually use Atom myself, but I recommend it here because it's a
 mouse-friendly editor that has working autoindent for Clojure out of the box.
-
-[3] [trident/staticweb](https://github.com/jacobobryant/trident)
-is a simple library I've made that wraps
-[Hiccup](https://github.com/weavejester/hiccup) and
-[Garden](https://github.com/noprompt/garden), allowing you to write inline CSS à la
-[Reagent](https://reagent-project.github.io/).

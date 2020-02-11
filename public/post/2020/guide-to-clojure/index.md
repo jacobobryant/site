@@ -1,74 +1,81 @@
 {:title "The Solo Hacker's Guide To Clojure" :date "2020-2-4" :tags ["clojure"]}
 
-*This is a continuation of my previous post "Learn Clojure with Web Dev," which
-I've renamed to [First Steps With Clojure](../../2019/learn-clojure/). I've moved
-some of the content from there to here, so I may sound like I'm repeating myself
-a little if you've read that previously.*
-
-This is the starting point for a series of articles I'm planning to write. My
+This is the starting point for a series of articles I'm currently writing. My
 target audience is people who want to use Clojure for side projects or new
 startups&mdash;i.e. I'm trying to help fellow solo hackers learn to bring new
-ideas to the MVP stage quickly, and my recommendations will be made accordingly.
+ideas to the MVP stage quickly. This involves different tradeoffs from learning
+Clojure with the intent to join an established team.
 
-This will also be an opinionated guide which teaches how I personally do web +
-mobile development. Rather than give an overview of X, Y and Z, I'll say "use
-X" and include a footnote that compares X to other options. I want you to feel
-the leverage that can come from Clojure as soon as possible, without having to
-wade through the jungle first.
+#### Syllabus
 
-[Please let me know](mailto:a@jacobobryant.com) what topics you'd like me to
-write about. I'd love to hear what things you're trying to learn and build. I'm
-not an expert by any means, but I've been doing Clojure full-time for over a
-year now at least. And I recently started a habit of writing every Monday, so
-I'm hoping to make consistent progress on this.
+This will also be an opinionated guide which teaches how I personally do web
+development. Rather than give an overview of X, Y and Z, I'll say "use X" and
+include a footnote that compares X to other options. I want you to feel the
+leverage that can come from Clojure as soon as possible, without having to wade
+through the jungle first.
 
-<!--
-And one final note to ease my imposter syndrome: I don't pretend to be a huge
-Clojure expert. However, I have been using Clojure in side projects since 2016
-and full-time as a startup founder/bum since January 2019, and I genuinely love
-figuring out the simplest ways to do application development. For those of you
-further along than me, I'd be happy to hear your recommendations.
--->
+This guide is breadth-first. There are many components in the Clojure
+ecosystem, and my goal is to show you how to put them together, not necessarily
+to teach you how the individual components work (there's usually already good
+documentation for that). I'll sometimes give links to relevant resources, but
+I'd also advise you to search out other resources on your own as you have
+questions. At least you'll have an idea of which questions to ask.
+`:slightly_smiling_face:`
 
-### Roadmap
+Along with this guide, I'll be developing a web application called
+[Mystery Cows](https://github.com/jacobobryant/mystery-cows), a cow-themed version
+of the board game Clue. Most articles will have you follow this pattern:
 
-I'm doing this breadth-first. Currently, what follows is mostly just an outline
-of what I'm planning to write.
+ - Checkout a particular branch from the Mystery Cows repository.
+
+ - Study and tinker with the code. Learn how it works on your own if you can.
+
+ - With guidance from the article, add features to your own project that
+   involve the things being taught.
+
+(In fact, I'm hoping that the example code I write is more useful than the
+articles themselves.)
+
+So you'll need to pick a web app to build yourself. If you need ideas, I think
+board games are great since they're easy to think of, they're interesting/they
+involve complex logic (not just CRUD), it's easy to be a genuine user yourself,
+you end up with something that's easy to show off, and you can go on to extend
+them with an AI if you like.
+
+#### Feedback
+
+As I write, I'll need feedback from people learning Clojure so I can prioritize
+what to revise. I also appreciate suggestions from experienced Clojurists. I've
+created `#solo-hackers-guide` on [Clojurians Slack](http://clojurians.net/) for
+this purpose. [Email](mailto:a@jacobobryant.com) is good too.
+
+#### Changelog
+
+You can [subscribe](https://tinyletter.com/jacobobryant) for notifications.
+
+ - 11 Feb 2020: Add [Landing Pages](/post/2020/landing-pages/). Revise [First
+   Steps](/post/2019/learn-clojure/), including replacing trident.staticweb
+   with Rum. Add Syllabus, Feedback and Changelog sections to this page. Also
+   `s/Crux/Datomic Cloud/` in the TODOs.
+
+ - 4 Feb 2020: Add this page.
+
+ - 23 Oct 2019: Add [First Steps](/post/2019/learn-clojure/).
 
 #### 1. Language fundamentals
 
-- [First Steps With Clojure](/post/2019/learn-clojure/).
-
-- As recommended in that link, work through chapters 3, 4 and 5 of [Clojure for
-  the Brave and
-  True](https://www.braveclojure.com/clojure-for-the-brave-and-true/).
-
-- Also see Yogthos's [Clojure beginner
-  resources](https://gist.github.com/yogthos/be323be0361c589570a6da4ccc85f58f)
-  and see if there's anything that tickles your fancy.
-
-- Do interactive exercises on [4clojure](https://www.4clojure.com) until you
-  start to get a feel for things.
-
-For the rest of this guide, decide on a web application you'd like to build. If
-you need ideas, I think board games are great since they involve complex logic
-(not just CRUD), it's easy to be a genuine user yourself, you end up with
-something that's easy to show off, and you can go on to extend it with an AI if
-you like.
+ - [First Steps](/post/2019/learn-clojure/)
+ - TODO: write my own "Why Clojure?" article
 
 #### 2. Frontend development
 
+- [Landing Pages](/post/2020/landing-pages/)
+
 TODO write articles & examples for the following:
 
-- Make a "Coming soon" landing page for your app. Include an email signup form
-  using JS + Firebase Firestore for persistence. No ClojureScript yet; we'll just use
-  Clojure to generate the HTML files. Use Bootstrap for styling unless you
-  already have another CSS toolkit you like. Deploy with Firebase Hosting. Tell
-  all your friends to sign up.
-
-- Add a login form with Firebase Authentication. Set up ClojureScript with
-  Shadow CLJS. Create a basic welcome page with Rum. Add CRUD operations,
-  still using Firestore for persistence. Learn to make complex UIs with Rum.
+ - Add a login form with Firebase Authentication. Set up ClojureScript with
+   Shadow CLJS. Create a basic welcome page with Rum. Add CRUD operations,
+   still using Firestore for persistence. Learn to make complex UIs with Rum.
 
  - Learn about normalization, derived values and effect isolation (i.e. state
    management) so you don't go insane later (insanity can be harmful to your
@@ -83,17 +90,17 @@ TODO write articles & examples for the following:
   Functions + Firestore and when it makes sense to move to a Clojure backend
   instead.
 
-- Set up a Clojure backend with DigitalOcean, Crux and managed Postgres.
-  Probably Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync
-  (maybe Github Actions?). Set up logging and alerting (optionally, come back to
-  this step later).
+- Set up a Clojure backend with DigitalOcean and Datomic Cloud. Probably
+  Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync (maybe
+  Github Actions?). Set up logging and alerting (optionally, come back to this
+  step later).
 
 - Set up communication between your frontend and backend. Add Ring middleware
-  for authenticating Firebase tokens. Move your CRUD from Firestore to Crux,
+  for authenticating Firebase tokens. Move your CRUD from Firestore to Datomic,
   using a rules system so you don't get a proliferation of endpoints. Use
   Firebase Storage (or maybe DigitalOcean Spaces?) for BLOB storage, with
-  foreign keys stored in Crux (and utility fns for making it look like
-  everything's in Crux).
+  foreign keys stored in Datomic (and utility fns for making it look like
+  everything's in Datomic).
 
 - Learn about system management with Integrant (or maybe just roll your own).
 
@@ -104,27 +111,6 @@ TODO write articles & examples for the following:
 - Consume 3rd party APIs, including things like Oauth, caching and
   self-throttling. Set up cron jobs. Provide a pagination API for your frontend.
   Any other stuff I can think of that might be useful.
-
-- MAYBE: use Datomic Ions instead of Crux. Ions are actually what I'm familiar
-  with; I've never used Crux. But I've had enough headaches from Ions/AWS that I
-  don't think the overhead is worth it for solo hackers. Plus, you have to use
-  the solo topology for production (which is unsupported) until your app has
-  enough traction to warrant a pair of i3.large instances (on the order of a few
-  hundred bucks/month). Solo topology means no direct HTTP/dealing with lambda
-  warmup times and, more importantly, deploys that often require 5-30 minutes of
-  downtime (in my experience). On the other hand, I believe I've worked through
-  most of the quirks of Ions, so maybe it'd be useful if I wrote an article
-  about it.
-
-  Another option is using Datomic On-Prem with DigitalOcean. That would make it
-  easier to migrate to Ions later on. I'll evaluate Crux vs. On-Prem when I get
-  to this point in the course.
-
-  (Also, there is Datomic Cloud without Ions. However, you have to give up
-  data/code locality which I consider a killer feature. It's been especially
-  helpful to me in building recommender systems, but even for just CRUD, having
-  data/code locality makes it easier to introduce abstractions. I probably would
-  only use Cloud without Ions for one-off services.)
 
 #### 4. Miscellanea
 
@@ -142,3 +128,5 @@ TODO write articles & examples for the following:
 
 - Tooling for the enlightened: learn Vim and set it up for Clojure. For the
   really enlightened: use Dvorak instead of Qwerty (ok, just kidding, sorta).
+
+- Mobile app primer: create a basic app with CLJS + React Native.
