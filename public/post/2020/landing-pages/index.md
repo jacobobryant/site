@@ -2,16 +2,16 @@
 
 This tutorial will demonstrate a workflow for creating a landing page (with
 email signup form) for a new project. Part of [The Solo Hacker's Guide To
-Clojure](/post/2020/guide-to-clojure/). Prerequisites:
+Clojure](/post/2020/guide-to-clojure/). Prerequisites: [First Steps With
+Clojure](/post/2019/learn-clojure/).
 
-- [First Steps With Clojure](/post/2019/learn-clojure/), OR
-- A basic understanding of Clojure fundamentals and tools.deps, and
-  a basic Clojure development environment set up.
+**Demo**
 
 Clone the [Mystery Cows](https://github.com/jacobobryant/mystery-cows)
 repository and checkout the `landing-page` branch. Run `./task setup` to
-install a couple npm deps (if you don't have npm installed, do that first).
-Then run `./task dev live` to start a development server.
+install a couple npm deps and download the Bootstrap source (if you don't have
+npm installed, do that first). Then run `./task dev live` to start a
+development server.
 
 (I'm going to assume your environment has the ability to run shell scripts. I
 figure this is a reasonable assumption since Windows 10 has the Windows
@@ -31,7 +31,7 @@ in case you're wondering).
 because it has a Firebase dependency which we haven't set up yet. More on that
 later.)
 
-Let's open the code.
+**The code**
 
 [`src/cows/core.clj`](https://github.com/jacobobryant/mystery-cows/blob/landing-page/src/cows/core.clj)
 
@@ -49,49 +49,51 @@ Always worth a look.
 
 Note that `clj -m cows.core` calls the `-main` function from `src/cows/core.clj`.
 
-<hr>
+[`bootstrap/custom.scss`](https://github.com/jacobobryant/mystery-cows/blob/landing-page/bootstrap/custom.scss)
+
+This is where you can customize [Bootstrap's](https://getbootstrap.com) CSS.
+
+**Do it yourself**
 
 Now, create a separate project for your own landing page:
 
- 1. Set up a skeleton for the project. Copy over `deps.edn` and `task`, then
-    add a bare-bones `src/yourproject/core.clj` file with just a "hello world"
-    div. Also include a head section with the title and meta elements. Run the
-    dev server and make sure it works.
+ 1. Set up a skeleton for the project. Copy over `deps.edn`, `task` and
+    `bootstrap/custom.scss`, then add a bare-bones `src/yourproject/core.clj`
+    file with just a "hello world" div. Also include a head section with the
+    title and meta elements. Run `./task setup`, then start the dev server and
+    make sure it works.
 
  2. Generate a favicon ([favicon.io](https://favicon.io)). Place the generated
     files in `public/` and link to them from `yourproject.core`.
 
- 3. Add Bootstrap with custom brand colors.
-
-    Use [coolers.co](https://coolors.co/app) to generate a primary and a
-    secondary color, then enter those colors into [Bootstrap
-    Magic](https://pikock.github.io/bootstrap-magic/app/index.html#!/editor)
-    (under Brand Colors -> `$theme-colors`). Tweak the colors as needed.
-
-    Once that's done, save the file to `public/css/bootstrap.css` and link to it from
-    `yourproject.core`.
+ 3. Add links to Bootstrap from `yourproject.core`. Change the theme colors in
+    `bootstrap/custom.scss` (unless you want to leave it as "cowpie brown").
+    You can use use [coolers.co](https://coolors.co/app) or something similar
+    to help you pick some colors.
 
  4. Write the HTML/CSS in `cows.core`. You could do it from scratch without too
     much effort, but I searched for "free bootstrap themes" and ended up on
-    [this one](https://startbootstrap.com/themes/landing-page/). If you take that route,
-    use [this site](https://htmltohiccup.herokuapp.com/) to convert the HTML to Clojure
-    data structures. Wrap the output in a `(defc landing-page [] ...)` as in `cows.core`.
-    You'll have to do a little editing.
+    [this one](https://startbootstrap.com/themes/landing-page/). If you take
+    that route, use [this site](https://htmltohiccup.herokuapp.com/) to convert
+    the HTML to Clojure data structures. Wrap the output in a `(defc
+    landing-page [] ...)` as in `cows.core`. You'll have to do a little
+    editing.
 
     For one thing, Rum is slightly different from
     [Hiccup](https://github.com/weavejester/hiccup). Hiccup uses only strings
     for inline CSS, so you can't write something like `[:p {:style
     {:background-color "green"}} ...]`. Instead, you'd have to write `[:p
     {:style "background-color: green;"}]`. Rum is the opposite way, so if you
-    get any compilation errors, you may need to convert the strings to maps
-    by hand.
+    get any compilation errors, you may need to convert the strings to maps by
+    hand.
 
     Also stick any images and CSS files from the theme you copied somewhere
     under `public/`, adding the appropriate links to the head section. I'd
     recommend rewriting the CSS into `yourproject.core` in most cases, but some
     things (like media queries) can't be written inline, so feel free to leave
     those in a separate CSS file. (See
-    [Garden](https://github.com/noprompt/garden) if you want a 100% Clojure solution.)
+    [Garden](https://github.com/noprompt/garden) if you want a 100% Clojure
+    solution.)
 
     Finally, you can break up the HTML structures into separate variables and
     components like I've done in `cows.core`. For example, the "testimonial
@@ -101,11 +103,12 @@ Now, create a separate project for your own landing page:
   5. For stock photos, I recommend [pexels.com](https://pexels.com) (that's
      where I got all the cows).
 
-Once your landing page is looking good, the next step is to make the signup form
-actually work. We'll need to set up Firebase as we'll be using that for storing
-the email addresses (and for hosting).
+Once your landing page is looking good, the next step is to make the signup
+form actually work. We'll need to set up Firebase as we'll be using that for
+storing the email addresses (and for hosting).
 
- 1. Go to [firebase.google.com](https://firebase.google.com) and set up a new project.
+ 1. Go to [firebase.google.com](https://firebase.google.com) and set up a new
+    project.
 
  2. From that website, create a Firestore database. After it's provisioned,
     click "Start collection" and set the ID to `signups`. Add a single string
@@ -117,8 +120,8 @@ the email addresses (and for hosting).
 
  4. Replace the the new `firestore.rules` file with the one from Mystery Cows.
     Those rules will let your signup form add new email addresses, and it will
-    prevent users from reading or modifying the saved addresses. Run
-    `firebase deploy --only firestore:rules`.
+    prevent users from reading or modifying the saved addresses. Run `firebase
+    deploy --only firestore:rules`.
 
  5. In `cows.core`, you'll notice three Firebase `:script` elements. Add those
     elements to `yourproject.core`.
@@ -146,5 +149,4 @@ myself, but Firebase somewhat recently made a convenient extension for adding
 new users to Mailchimp, so that could be a decent option. We'll go more into
 that eventually.)
 
-Next time, we'll learn how to add Firebase authentication, React and
-ClojureScript to your app.
+Next, add [authentication](/post/2020/authentication/).

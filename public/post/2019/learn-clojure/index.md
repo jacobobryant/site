@@ -249,7 +249,7 @@ Next, let's add some [Bootstrap](https://getbootstrap.com) to make CSS easier.
 Boom. Now you can handle all your HTML needs with panache. As mentioned before,
 these few fundamentals are enough to go quite far with static site generation.
 
-Next, learn to make full-featured [Landing Pages](/post/2020/landing-pages).
+Next, learn to make full-featured [Landing Pages](/post/2020/landing-pages/).
 
 <br>
 <br>

@@ -6,7 +6,7 @@ startups&mdash;i.e. I'm trying to help fellow solo hackers learn to bring new
 ideas to the MVP stage quickly. This involves different tradeoffs from learning
 Clojure with the intent to join an established team.
 
-#### Syllabus
+##### Syllabus
 
 This will also be an opinionated guide which teaches how I personally do web
 development. Rather than give an overview of X, Y and Z, I'll say "use X" and
@@ -26,7 +26,8 @@ Along with this guide, I'll be developing a web application called
 [Mystery Cows](https://github.com/jacobobryant/mystery-cows), a cow-themed version
 of the board game Clue. Most articles will have you follow this pattern:
 
- - Checkout a particular branch from the Mystery Cows repository.
+ - Checkout a particular branch from the Mystery Cows repository. Run the code
+   so you can see what the end result will look like.
 
  - Study and tinker with the code. Learn how it works on your own if you can.
 
@@ -42,47 +43,55 @@ involve complex logic (not just CRUD), it's easy to be a genuine user yourself,
 you end up with something that's easy to show off, and you can go on to extend
 them with an AI if you like.
 
-#### Feedback
+##### Feedback
 
 As I write, I'll need feedback from people learning Clojure so I can prioritize
 what to revise. I also appreciate suggestions from experienced Clojurists. I've
 created `#solo-hackers-guide` on [Clojurians Slack](http://clojurians.net/) for
 this purpose. [Email](mailto:a@jacobobryant.com) is good too.
 
-#### Changelog
+##### Changelog
 
 You can [subscribe](https://tinyletter.com/jacobobryant) for notifications.
+
+ - 18 Feb 2020: Add [Authentication](/post/2020/authentication/). Revise
+   [Landing Pages](/post/2020/landing-pages/): edit Bootstrap source directly
+   instead of using Bootstrap Magic.
 
  - 11 Feb 2020: Add [Landing Pages](/post/2020/landing-pages/). Revise [First
    Steps](/post/2019/learn-clojure/), including replacing trident.staticweb
    with Rum. Add Syllabus, Feedback and Changelog sections to this page. Also
-   `s/Crux/Datomic Cloud/` in the TODOs.
+   `s/Crux/Datomic/` in the TODOs.
 
  - 4 Feb 2020: Add this page.
 
  - 23 Oct 2019: Add [First Steps](/post/2019/learn-clojure/).
 
-#### 1. Language fundamentals
+### The course
+
+##### 1. Language fundamentals
 
  - [First Steps](/post/2019/learn-clojure/)
  - TODO: write my own "Why Clojure?" article
 
-#### 2. Frontend development
+##### 2. Frontend development
 
 - [Landing Pages](/post/2020/landing-pages/)
+- [Authentication](/post/2020/authentication/)
 
 TODO write articles & examples for the following:
 
- - Add a login form with Firebase Authentication. Set up ClojureScript with
-   Shadow CLJS. Create a basic welcome page with Rum. Add CRUD operations,
-   still using Firestore for persistence. Learn to make complex UIs with Rum.
+ - Set up ClojureScript with Shadow CLJS. Create a basic welcome page with Rum.
+   Add CRUD operations, still using Firestore for persistence.
+
+ - Learn to make complex UIs with Rum, including routing and navigation.
 
  - Learn about normalization, derived values and effect isolation (i.e. state
    management) so you don't go insane later (insanity can be harmful to your
    velocity). Rejoice that you don't have to use a DI framework like I did while
    working at an Angular shop.
 
-#### 3. Backend development
+##### 3. Backend development
 
 TODO write articles & examples for the following:
 
@@ -90,10 +99,9 @@ TODO write articles & examples for the following:
   Functions + Firestore and when it makes sense to move to a Clojure backend
   instead.
 
-- Set up a Clojure backend with DigitalOcean and Datomic Cloud. Probably
-  Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync (maybe
-  Github Actions?). Set up logging and alerting (optionally, come back to this
-  step later).
+- Set up a Clojure backend with DigitalOcean and Datomic. Probably Terraform as
+  well, plus Nginx and Letsencrypt. Deploy with rsync (maybe Github Actions?).
+  Set up logging and alerting (optionally, come back to this step later).
 
 - Set up communication between your frontend and backend. Add Ring middleware
   for authenticating Firebase tokens. Move your CRUD from Firestore to Datomic,
@@ -112,7 +120,7 @@ TODO write articles & examples for the following:
   self-throttling. Set up cron jobs. Provide a pagination API for your frontend.
   Any other stuff I can think of that might be useful.
 
-#### 4. Miscellanea
+##### 4. Miscellanea
 
 TODO write articles & examples for the following:
 

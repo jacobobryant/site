@@ -1,15 +1,74 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-02-11T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Landing Pages With Clojure and Firebase</title><id>https://jacobobryant.com/post/2020/landing-pages/</id><link href="https://jacobobryant.com/post/2020/landing-pages/" /><updated>2020-02-11T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;This tutorial will demonstrate a workflow for creating a landing page (with
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-02-18T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Firebase Authentication With Clojure</title><id>https://jacobobryant.com/post/2020/authentication/</id><link href="https://jacobobryant.com/post/2020/authentication/" /><updated>2020-02-18T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;Today we&apos;ll be adding Firebase Authentication to a static website that&apos;s
+generated with Clojure. Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To
+Clojure&lt;/a&gt;. Prerequisites: &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing
+Pages&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;If you cloned &lt;a href=&quot;https://github.com/jacobobryant/mystery-cows&quot;&gt;Mystery Cows&lt;/a&gt;
+before 18 Feb 2020, run &lt;code&gt;git pull&lt;/code&gt;. Besides adding a new &lt;code&gt;authentication&lt;/code&gt;
+branch, I added some Bootstrap compilation code to the &lt;code&gt;landing-page&lt;/code&gt; branch in
+place of using Bootstrap Magic. See &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing
+Pages&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Demo&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;(As always, you can also see what we&apos;ll be building at
+&lt;a href=&quot;https://cows.jacobobryant.com&quot;&gt;&lt;code&gt;cows.jacobobryant.com&lt;/code&gt;&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;In the Mystery Cows project, checkout the &lt;code&gt;authentication&lt;/code&gt; branch. Run &lt;code&gt;./task setup&lt;/code&gt; again to install some more Firebase dependencies. But before you start the dev
+server, you&apos;ll need to do some setup for Firebase Authentication.&lt;/p&gt;
+&lt;p&gt;First, copy &lt;code&gt;.firebaserc&lt;/code&gt; from the project you created last time to the Mystery
+Cows project. The contents should look like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-javascript&quot;&gt;{
+  &amp;quot;projects&amp;quot;: {
+    &amp;quot;default&amp;quot;: &amp;quot;your-project-id&amp;quot;
+  }
+}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, go to the Firebase console for your project
+(&lt;a href=&quot;https://firebase.google.com&quot;&gt;firebase.google.com&lt;/a&gt;). Go to Develop -&amp;gt;
+Authentication -&amp;gt; Sign-in method. First enable &amp;quot;Email/Password,&amp;quot; and then also
+enable &amp;quot;Email link (passwordless sign-in).&amp;quot; After that, enable sign-in with
+Google. If you&apos;re using a custom domain for your project, add it under
+&amp;quot;Authorized domains.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Now you can run the dev server (&lt;code&gt;./task dev&lt;/code&gt;) and open
+&lt;a href=&quot;http://localhost:5000&quot;&gt;localhost:5000&lt;/a&gt;. You should see that the mailing list
+sign-up form we had before has been replaced with an actual sign-in form. If
+you create an account, you should see it show up in the Firebase console.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The code&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Run &lt;code&gt;git diff landing-page authentication&lt;/code&gt; to see what changed.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/authentication/task&quot;&gt;&lt;code&gt;task&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Note the two dependencies we&apos;ve added for
+&lt;a href=&quot;https://github.com/firebase/firebaseui-web&quot;&gt;firebaseui-web&lt;/a&gt; (a drop-in sign-in
+form). You could instead link directly to the CDN, but I self-host them because
+I had a user once who was blocking gstatic.com.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/authentication/public/js/main.js&quot;&gt;&lt;code&gt;public/js/main.js&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&apos;ve replaced the mailing list sign-up code with some initialization code for
+firebaseui-web. (Note that the links for Terms of Service and Privacy Policy
+will give 404 errors. If you&apos;re working on a Serious Project, you can get
+started with some auto-generated ones.)&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/authentication/public/css/main.css&quot;&gt;&lt;code&gt;public/css/main.css&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I&apos;ve removed A CSS rule that was messing up the sign-in form. I&apos;ve instead
+added the CSS inline in the next file.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/authentication/src/cows/core.clj&quot;&gt;&lt;code&gt;src/cows/core.clj&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&apos;re now generating three separate pages: a landing page, a login page, and an
+app page (which is where we&apos;ll start putting our ClojureScript next time). Be
+sure to take a look at &lt;code&gt;ensure-logged-in&lt;/code&gt; and &lt;code&gt;ensure-logged-out&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Do it yourself&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Since you&apos;ve already set up authentication from the Firebase console, there&apos;s
+not too much left to do for your own project. Copy over &lt;code&gt;task&lt;/code&gt; and
+&lt;code&gt;public/js/main.js&lt;/code&gt; from Mystery Cows. Run &lt;code&gt;./task dev&lt;/code&gt; and start working on
+the login and app pages in &lt;code&gt;src/cows/core.clj&lt;/code&gt;. When you&apos;re done, you could run
+&lt;code&gt;./task deploy&lt;/code&gt;, though for a Serious Project you&apos;d want to leave the mailing
+list signup form until later.&lt;/p&gt;
+&lt;p&gt;Next time, we&apos;ll add some simple React components to the app page using
+ClojureScript, Rum and Shadow CLJS. We might also get to some very basic CRUD
+(using Firestore) and state management.&lt;/p&gt;
+</content><category term="clojure"></category></entry><entry><title>Landing Pages With Clojure and Firebase</title><id>https://jacobobryant.com/post/2020/landing-pages/</id><link href="https://jacobobryant.com/post/2020/landing-pages/" /><updated>2020-02-11T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;This tutorial will demonstrate a workflow for creating a landing page (with
 email signup form) for a new project. Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To
-Clojure&lt;/a&gt;. Prerequisites:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With Clojure&lt;/a&gt;, OR&lt;/li&gt;
-&lt;li&gt;A basic understanding of Clojure fundamentals and tools.deps, and
-a basic Clojure development environment set up.&lt;/li&gt;
-&lt;/ul&gt;
+Clojure&lt;/a&gt;. Prerequisites: &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With
+Clojure&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Demo&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Clone the &lt;a href=&quot;https://github.com/jacobobryant/mystery-cows&quot;&gt;Mystery Cows&lt;/a&gt;
 repository and checkout the &lt;code&gt;landing-page&lt;/code&gt; branch. Run &lt;code&gt;./task setup&lt;/code&gt; to
-install a couple npm deps (if you don&apos;t have npm installed, do that first).
-Then run &lt;code&gt;./task dev live&lt;/code&gt; to start a development server.&lt;/p&gt;
+install a couple npm deps and download the Bootstrap source (if you don&apos;t have
+npm installed, do that first). Then run &lt;code&gt;./task dev live&lt;/code&gt; to start a
+development server.&lt;/p&gt;
 &lt;p&gt;(I&apos;m going to assume your environment has the ability to run shell scripts. I
 figure this is a reasonable assumption since Windows 10 has the Windows
 Subsystem for Linux. But if you can&apos;t run shell scripts, you can just look
@@ -25,7 +84,7 @@ in case you&apos;re wondering).&lt;/p&gt;
 &lt;p&gt;(By the way, the email form will give you console errors if you try to use it
 because it has a Firebase dependency which we haven&apos;t set up yet. More on that
 later.)&lt;/p&gt;
-&lt;p&gt;Let&apos;s open the code.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;The code&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/landing-page/src/cows/core.clj&quot;&gt;&lt;code&gt;src/cows/core.clj&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;This file uses &lt;a href=&quot;https://github.com/tonsky/rum#server-side-rendering&quot;&gt;Rum server-side
 rendering&lt;/a&gt; to generate the
@@ -38,46 +97,47 @@ html. Things you may not have seen yet:&lt;/p&gt;
 &lt;p&gt;Always worth a look.&lt;/p&gt;
 &lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/landing-page/task&quot;&gt;&lt;code&gt;task&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Note that &lt;code&gt;clj -m cows.core&lt;/code&gt; calls the &lt;code&gt;-main&lt;/code&gt; function from &lt;code&gt;src/cows/core.clj&lt;/code&gt;.&lt;/p&gt;
-&lt;hr&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/landing-page/bootstrap/custom.scss&quot;&gt;&lt;code&gt;bootstrap/custom.scss&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This is where you can customize &lt;a href=&quot;https://getbootstrap.com&quot;&gt;Bootstrap&apos;s&lt;/a&gt; CSS.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Do it yourself&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;Now, create a separate project for your own landing page:&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Set up a skeleton for the project. Copy over &lt;code&gt;deps.edn&lt;/code&gt; and &lt;code&gt;task&lt;/code&gt;, then
-add a bare-bones &lt;code&gt;src/yourproject/core.clj&lt;/code&gt; file with just a &amp;quot;hello world&amp;quot;
-div. Also include a head section with the title and meta elements. Run the
-dev server and make sure it works.&lt;/p&gt;
+&lt;p&gt;Set up a skeleton for the project. Copy over &lt;code&gt;deps.edn&lt;/code&gt;, &lt;code&gt;task&lt;/code&gt; and
+&lt;code&gt;bootstrap/custom.scss&lt;/code&gt;, then add a bare-bones &lt;code&gt;src/yourproject/core.clj&lt;/code&gt;
+file with just a &amp;quot;hello world&amp;quot; div. Also include a head section with the
+title and meta elements. Run &lt;code&gt;./task setup&lt;/code&gt;, then start the dev server and
+make sure it works.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Generate a favicon (&lt;a href=&quot;https://favicon.io&quot;&gt;favicon.io&lt;/a&gt;). Place the generated
 files in &lt;code&gt;public/&lt;/code&gt; and link to them from &lt;code&gt;yourproject.core&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Add Bootstrap with custom brand colors.&lt;/p&gt;
-&lt;p&gt;Use &lt;a href=&quot;https://coolors.co/app&quot;&gt;coolers.co&lt;/a&gt; to generate a primary and a
-secondary color, then enter those colors into &lt;a href=&quot;https://pikock.github.io/bootstrap-magic/app/index.html#!/editor&quot;&gt;Bootstrap
-Magic&lt;/a&gt;
-(under Brand Colors -&amp;gt; &lt;code&gt;$theme-colors&lt;/code&gt;). Tweak the colors as needed.&lt;/p&gt;
-&lt;p&gt;Once that&apos;s done, save the file to &lt;code&gt;public/css/bootstrap.css&lt;/code&gt; and link to it from
-&lt;code&gt;yourproject.core&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;Add links to Bootstrap from &lt;code&gt;yourproject.core&lt;/code&gt;. Change the theme colors in
+&lt;code&gt;bootstrap/custom.scss&lt;/code&gt; (unless you want to leave it as &amp;quot;cowpie brown&amp;quot;).
+You can use use &lt;a href=&quot;https://coolors.co/app&quot;&gt;coolers.co&lt;/a&gt; or something similar
+to help you pick some colors.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Write the HTML/CSS in &lt;code&gt;cows.core&lt;/code&gt;. You could do it from scratch without too
 much effort, but I searched for &amp;quot;free bootstrap themes&amp;quot; and ended up on
-&lt;a href=&quot;https://startbootstrap.com/themes/landing-page/&quot;&gt;this one&lt;/a&gt;. If you take that route,
-use &lt;a href=&quot;https://htmltohiccup.herokuapp.com/&quot;&gt;this site&lt;/a&gt; to convert the HTML to Clojure
-data structures. Wrap the output in a &lt;code&gt;(defc landing-page [] ...)&lt;/code&gt; as in &lt;code&gt;cows.core&lt;/code&gt;.
-You&apos;ll have to do a little editing.&lt;/p&gt;
+&lt;a href=&quot;https://startbootstrap.com/themes/landing-page/&quot;&gt;this one&lt;/a&gt;. If you take
+that route, use &lt;a href=&quot;https://htmltohiccup.herokuapp.com/&quot;&gt;this site&lt;/a&gt; to convert
+the HTML to Clojure data structures. Wrap the output in a &lt;code&gt;(defc landing-page [] ...)&lt;/code&gt; as in &lt;code&gt;cows.core&lt;/code&gt;. You&apos;ll have to do a little
+editing.&lt;/p&gt;
 &lt;p&gt;For one thing, Rum is slightly different from
 &lt;a href=&quot;https://github.com/weavejester/hiccup&quot;&gt;Hiccup&lt;/a&gt;. Hiccup uses only strings
 for inline CSS, so you can&apos;t write something like &lt;code&gt;[:p {:style {:background-color &amp;quot;green&amp;quot;}} ...]&lt;/code&gt;. Instead, you&apos;d have to write &lt;code&gt;[:p {:style &amp;quot;background-color: green;&amp;quot;}]&lt;/code&gt;. Rum is the opposite way, so if you
-get any compilation errors, you may need to convert the strings to maps
-by hand.&lt;/p&gt;
+get any compilation errors, you may need to convert the strings to maps by
+hand.&lt;/p&gt;
 &lt;p&gt;Also stick any images and CSS files from the theme you copied somewhere
 under &lt;code&gt;public/&lt;/code&gt;, adding the appropriate links to the head section. I&apos;d
 recommend rewriting the CSS into &lt;code&gt;yourproject.core&lt;/code&gt; in most cases, but some
 things (like media queries) can&apos;t be written inline, so feel free to leave
 those in a separate CSS file. (See
-&lt;a href=&quot;https://github.com/noprompt/garden&quot;&gt;Garden&lt;/a&gt; if you want a 100% Clojure solution.)&lt;/p&gt;
+&lt;a href=&quot;https://github.com/noprompt/garden&quot;&gt;Garden&lt;/a&gt; if you want a 100% Clojure
+solution.)&lt;/p&gt;
 &lt;p&gt;Finally, you can break up the HTML structures into separate variables and
 components like I&apos;ve done in &lt;code&gt;cows.core&lt;/code&gt;. For example, the &amp;quot;testimonial
 items&amp;quot; were originally three separate blocks of HTML, but I consolidated
@@ -88,12 +148,13 @@ them into a component and a &lt;code&gt;for&lt;/code&gt;.&lt;/p&gt;
 where I got all the cows).&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;p&gt;Once your landing page is looking good, the next step is to make the signup form
-actually work. We&apos;ll need to set up Firebase as we&apos;ll be using that for storing
-the email addresses (and for hosting).&lt;/p&gt;
+&lt;p&gt;Once your landing page is looking good, the next step is to make the signup
+form actually work. We&apos;ll need to set up Firebase as we&apos;ll be using that for
+storing the email addresses (and for hosting).&lt;/p&gt;
 &lt;ol&gt;
 &lt;li&gt;
-&lt;p&gt;Go to &lt;a href=&quot;https://firebase.google.com&quot;&gt;firebase.google.com&lt;/a&gt; and set up a new project.&lt;/p&gt;
+&lt;p&gt;Go to &lt;a href=&quot;https://firebase.google.com&quot;&gt;firebase.google.com&lt;/a&gt; and set up a new
+project.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;From that website, create a Firestore database. After it&apos;s provisioned,
@@ -107,8 +168,7 @@ Firebase CLI. Once you get past the &lt;code&gt;firebase login&lt;/code&gt; part
 &lt;li&gt;
 &lt;p&gt;Replace the the new &lt;code&gt;firestore.rules&lt;/code&gt; file with the one from Mystery Cows.
 Those rules will let your signup form add new email addresses, and it will
-prevent users from reading or modifying the saved addresses. Run
-&lt;code&gt;firebase deploy --only firestore:rules&lt;/code&gt;.&lt;/p&gt;
+prevent users from reading or modifying the saved addresses. Run &lt;code&gt;firebase deploy --only firestore:rules&lt;/code&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;In &lt;code&gt;cows.core&lt;/code&gt;, you&apos;ll notice three Firebase &lt;code&gt;:script&lt;/code&gt; elements. Add those
@@ -136,14 +196,13 @@ import the emails you get from Firebase. (I use Mailgun with some custom code
 myself, but Firebase somewhat recently made a convenient extension for adding
 new users to Mailchimp, so that could be a decent option. We&apos;ll go more into
 that eventually.)&lt;/p&gt;
-&lt;p&gt;Next time, we&apos;ll learn how to add Firebase authentication, React and
-ClojureScript to your app.&lt;/p&gt;
+&lt;p&gt;Next, add &lt;a href=&quot;https://jacobobryant.com/post/2020/authentication/&quot;&gt;authentication&lt;/a&gt;.&lt;/p&gt;
 </content><category term="clojure"></category></entry><entry><title>The Solo Hacker's Guide To Clojure</title><id>https://jacobobryant.com/post/2020/guide-to-clojure/</id><link href="https://jacobobryant.com/post/2020/guide-to-clojure/" /><updated>2020-02-04T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;This is the starting point for a series of articles I&apos;m currently writing. My
 target audience is people who want to use Clojure for side projects or new
 startups—i.e. I&apos;m trying to help fellow solo hackers learn to bring new
 ideas to the MVP stage quickly. This involves different tradeoffs from learning
 Clojure with the intent to join an established team.&lt;/p&gt;
-&lt;h4&gt;Syllabus&lt;/h4&gt;
+&lt;h5&gt;Syllabus&lt;/h5&gt;
 &lt;p&gt;This will also be an opinionated guide which teaches how I personally do web
 development. Rather than give an overview of X, Y and Z, I&apos;ll say &amp;quot;use X&amp;quot; and
 include a footnote that compares X to other options. I want you to feel the
@@ -161,7 +220,8 @@ questions. At least you&apos;ll have an idea of which questions to ask.
 of the board game Clue. Most articles will have you follow this pattern:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Checkout a particular branch from the Mystery Cows repository.&lt;/p&gt;
+&lt;p&gt;Checkout a particular branch from the Mystery Cows repository. Run the code
+so you can see what the end result will look like.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Study and tinker with the code. Learn how it works on your own if you can.&lt;/p&gt;
@@ -178,19 +238,24 @@ board games are great since they&apos;re easy to think of, they&apos;re interest
 involve complex logic (not just CRUD), it&apos;s easy to be a genuine user yourself,
 you end up with something that&apos;s easy to show off, and you can go on to extend
 them with an AI if you like.&lt;/p&gt;
-&lt;h4&gt;Feedback&lt;/h4&gt;
+&lt;h5&gt;Feedback&lt;/h5&gt;
 &lt;p&gt;As I write, I&apos;ll need feedback from people learning Clojure so I can prioritize
 what to revise. I also appreciate suggestions from experienced Clojurists. I&apos;ve
 created &lt;code&gt;#solo-hackers-guide&lt;/code&gt; on &lt;a href=&quot;http://clojurians.net/&quot;&gt;Clojurians Slack&lt;/a&gt; for
 this purpose. &lt;a href=&quot;mailto:a@jacobobryant.com&quot;&gt;Email&lt;/a&gt; is good too.&lt;/p&gt;
-&lt;h4&gt;Changelog&lt;/h4&gt;
+&lt;h5&gt;Changelog&lt;/h5&gt;
 &lt;p&gt;You can &lt;a href=&quot;https://tinyletter.com/jacobobryant&quot;&gt;subscribe&lt;/a&gt; for notifications.&lt;/p&gt;
 &lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;18 Feb 2020: Add &lt;a href=&quot;https://jacobobryant.com/post/2020/authentication/&quot;&gt;Authentication&lt;/a&gt;. Revise
+&lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing Pages&lt;/a&gt;: edit Bootstrap source directly
+instead of using Bootstrap Magic.&lt;/p&gt;
+&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;11 Feb 2020: Add &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing Pages&lt;/a&gt;. Revise &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First
 Steps&lt;/a&gt;, including replacing trident.staticweb
 with Rum. Add Syllabus, Feedback and Changelog sections to this page. Also
-&lt;code&gt;s/Crux/Datomic Cloud/&lt;/code&gt; in the TODOs.&lt;/p&gt;
+&lt;code&gt;s/Crux/Datomic/&lt;/code&gt; in the TODOs.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;4 Feb 2020: Add this page.&lt;/p&gt;
@@ -199,21 +264,25 @@ with Rum. Add Syllabus, Feedback and Changelog sections to this page. Also
 &lt;p&gt;23 Oct 2019: Add &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps&lt;/a&gt;.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;1. Language fundamentals&lt;/h4&gt;
+&lt;h3&gt;The course&lt;/h3&gt;
+&lt;h5&gt;1. Language fundamentals&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;TODO: write my own &amp;quot;Why Clojure?&amp;quot; article&lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;2. Frontend development&lt;/h4&gt;
+&lt;h5&gt;2. Frontend development&lt;/h5&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing Pages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&quot;https://jacobobryant.com/post/2020/authentication/&quot;&gt;Authentication&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
-&lt;p&gt;Add a login form with Firebase Authentication. Set up ClojureScript with
-Shadow CLJS. Create a basic welcome page with Rum. Add CRUD operations,
-still using Firestore for persistence. Learn to make complex UIs with Rum.&lt;/p&gt;
+&lt;p&gt;Set up ClojureScript with Shadow CLJS. Create a basic welcome page with Rum.
+Add CRUD operations, still using Firestore for persistence.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Learn to make complex UIs with Rum, including routing and navigation.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Learn about normalization, derived values and effect isolation (i.e. state
@@ -222,7 +291,7 @@ velocity). Rejoice that you don&apos;t have to use a DI framework like I did whi
 working at an Angular shop.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;3. Backend development&lt;/h4&gt;
+&lt;h5&gt;3. Backend development&lt;/h5&gt;
 &lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
@@ -231,10 +300,9 @@ Functions + Firestore and when it makes sense to move to a Clojure backend
 instead.&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
-&lt;p&gt;Set up a Clojure backend with DigitalOcean and Datomic Cloud. Probably
-Terraform as well, plus Nginx and Letsencrypt. Deploy with rsync (maybe
-Github Actions?). Set up logging and alerting (optionally, come back to this
-step later).&lt;/p&gt;
+&lt;p&gt;Set up a Clojure backend with DigitalOcean and Datomic. Probably Terraform as
+well, plus Nginx and Letsencrypt. Deploy with rsync (maybe Github Actions?).
+Set up logging and alerting (optionally, come back to this step later).&lt;/p&gt;
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Set up communication between your frontend and backend. Add Ring middleware
@@ -258,7 +326,7 @@ self-throttling. Set up cron jobs. Provide a pagination API for your frontend.
 Any other stuff I can think of that might be useful.&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
-&lt;h4&gt;4. Miscellanea&lt;/h4&gt;
+&lt;h5&gt;4. Miscellanea&lt;/h5&gt;
 &lt;p&gt;TODO write articles &amp;amp; examples for the following:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;
