@@ -5,12 +5,6 @@ generated with Clojure. Part of [The Solo Hacker's Guide To
 Clojure](/post/2020/guide-to-clojure/). Prerequisites: [Landing
 Pages](/post/2020/landing-pages/).
 
-*If you cloned [Mystery Cows](https://github.com/jacobobryant/mystery-cows)
-before 18 Feb 2020, run `git pull`. Besides adding a new `authentication`
-branch, I added some Bootstrap compilation code to the `landing-page` branch in
-place of using Bootstrap Magic. See [Landing
-Pages](/post/2020/landing-pages/).*
-
 **Demo**
 
 (As always, you can also see what we'll be building at
@@ -81,6 +75,5 @@ the login and app pages in `src/cows/core.clj`. When you're done, you could run
 `./task deploy`, though for a Serious Project you'd want to leave the mailing
 list signup form until later.
 
-Next time, we'll add some simple React components to the app page using
-ClojureScript, Rum and Shadow CLJS. We might also get to some very basic CRUD
-(using Firestore) and state management.
+[Next time](/post/2020/add-cljs/), we'll add some simple React components to
+the app page using ClojureScript, Rum and Shadow CLJS.

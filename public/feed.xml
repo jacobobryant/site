@@ -1,12 +1,80 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-02-18T00:00:00.000-07:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Firebase Authentication With Clojure</title><id>https://jacobobryant.com/post/2020/authentication/</id><link href="https://jacobobryant.com/post/2020/authentication/" /><updated>2020-02-18T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;Today we&apos;ll be adding Firebase Authentication to a static website that&apos;s
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-03-18T00:00:00.000-06:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Stubbing out ClojureScript + React</title><id>https://jacobobryant.com/post/2020/add-cljs/</id><link href="https://jacobobryant.com/post/2020/add-cljs/" /><updated>2020-03-18T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;Today we&apos;re going to expand on our simple HTML + CSS website by adding in
+ClojureScript and React (via Shadow CLJS and Rum). Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s
+Guide To Clojure&lt;/a&gt;. Prerequisites:
+&lt;a href=&quot;https://jacobobryant.com/post/2020/authentication/&quot;&gt;Authentication&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Demo&lt;/strong&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;In the &lt;a href=&quot;https://github.com/jacobobryant/mystery-cows&quot;&gt;Mystery Cows&lt;/a&gt; project,
+checkout the &lt;code&gt;add-cljs&lt;/code&gt; branch.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Run &lt;code&gt;./task setup&lt;/code&gt; again to install some NPM dependencies (&lt;code&gt;shadow-cljs&lt;/code&gt;,
+&lt;code&gt;react&lt;/code&gt; and &lt;code&gt;react-dom&lt;/code&gt;).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Run &lt;code&gt;./task dev&lt;/code&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;After Shadow CLJS has finished loading, go to
+&lt;a href=&quot;http://localhost:9630&quot;&gt;localhost:9630&lt;/a&gt; (the Shadow CLJS console). Hover
+your mouse over &amp;quot;Builds,&amp;quot; and then check the &amp;quot;main&amp;quot; build.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Open &lt;a href=&quot;http://localhost:5000&quot;&gt;localhost:5000&lt;/a&gt; and log in. You should see a
+loading spinner at first, and then it should be replaced by a welcome
+message. The message uses ClojureScript to display the email address you
+logged in with. If you make a change to &lt;code&gt;src/cows/core.cljs&lt;/code&gt; and save the
+file, you should see the change happen immediately.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;&lt;strong&gt;The code&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Run &lt;code&gt;git diff authentication add-cljs &apos;:!package-lock.json&apos;&lt;/code&gt; to see what changed.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/add-cljs/deps.edn&quot;&gt;&lt;code&gt;deps.edn&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&apos;ve added some dependencies needed by Shadow CLJS. We&apos;ve also added
+&lt;code&gt;cljsjs/firebase&lt;/code&gt; which includes &lt;em&gt;externs&lt;/em&gt; for Firebase. Without externs, your
+code might break when doing advanced compilation. &lt;a href=&quot;https://lispcast.com/clojurescript-externs/&quot;&gt;Read
+this&lt;/a&gt; for a good explanation.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/add-cljs/shadow-cljs.edn&quot;&gt;&lt;code&gt;shadow-cljs.edn&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This is the configuration file for Shadow CLJS. You can learn more at
+&lt;a href=&quot;http://shadow-cljs.org&quot;&gt;shadow-cljs.org&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/add-cljs/src/cows/core.clj&quot;&gt;&lt;code&gt;src/cows/core.clj&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&apos;ve added a link to the JS file that will be generated from our ClojureScript
+code. We&apos;ve also replaced the existing welcome message with a loading spinner.
+When our ClojureScript code loads, it&apos;ll replace that HTML with a React
+component.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/add-cljs/src/cows/core.cljs&quot;&gt;&lt;code&gt;src/cows/core.cljs&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Voila, here&apos;s the CLJS code. The &lt;code&gt;main&lt;/code&gt; component is pretty much the same as
+code we removed from &lt;code&gt;core.clj&lt;/code&gt;, but now it&apos;ll display your logged-in email
+address.&lt;/p&gt;
+&lt;p&gt;The &lt;code&gt;mount&lt;/code&gt; and &lt;code&gt;init&lt;/code&gt; functions are special—they were referenced in &lt;code&gt;shadow-cljs.edn&lt;/code&gt;. &lt;code&gt;init&lt;/code&gt; will
+be called once, as soon as the CLJS code finished loading. In this case, &lt;code&gt;init&lt;/code&gt; waits for Firebase
+to load the logged-in user&apos;s information, and then it mounts the React component.&lt;/p&gt;
+&lt;p&gt;You can read up on using React via Rum on &lt;a href=&quot;https://github.com/tonsky/rum&quot;&gt;the Github page&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/blob/add-cljs/task&quot;&gt;&lt;code&gt;task&lt;/code&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;We&apos;ve added CLJS compilation to the &lt;code&gt;dev&lt;/code&gt; and &lt;code&gt;deploy&lt;/code&gt; tasks.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Do it yourself&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;In your own project, run &lt;code&gt;npm install shadow-cljs --save-dev; npm install react react-dom --save&lt;/code&gt;. Add the code from the files linked above to your own project,
+changing &lt;code&gt;cows.core&lt;/code&gt; to &lt;code&gt;yourproject.core&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;You should be able to run &lt;code&gt;./task dev&lt;/code&gt;, start the Shadow CLJS build and see
+your running ClojureScript code as we did in the demo. Run &lt;code&gt;./task deploy&lt;/code&gt; once
+you&apos;ve got it working.&lt;/p&gt;
+&lt;p&gt;The next step is to add a lobby so that you can create and join games. The code
+is already complete; see &lt;a href=&quot;https://github.com/jacobobryant/mystery-cows/tree/lobby&quot;&gt;the &lt;code&gt;lobby&lt;/code&gt;
+branch&lt;/a&gt;. It includes a
+chat feature for each game.&lt;/p&gt;
+&lt;p&gt;I&apos;ve decided that instead of dribbling out this guide an article at a time on
+my website, I&apos;d rather sit down and finish all the code in one go. Instead of
+publishing articles here, I&apos;ll put the tutorial info in the Github README pages
+and in-code comments of the separate branches.&lt;/p&gt;
+&lt;p&gt;So the next milestone I publish should include a completed application, built
+entirely on Firebase. After that, I&apos;ll replace Firebase (except for
+authentication) with a Clojure backend (including either Crux or Datomic) that
+you can deploy on Digital Ocean/EC2/etc.&lt;/p&gt;
+</content><category term="clojure"></category></entry><entry><title>Firebase Authentication With Clojure</title><id>https://jacobobryant.com/post/2020/authentication/</id><link href="https://jacobobryant.com/post/2020/authentication/" /><updated>2020-02-18T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;Today we&apos;ll be adding Firebase Authentication to a static website that&apos;s
 generated with Clojure. Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To
 Clojure&lt;/a&gt;. Prerequisites: &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing
 Pages&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;If you cloned &lt;a href=&quot;https://github.com/jacobobryant/mystery-cows&quot;&gt;Mystery Cows&lt;/a&gt;
-before 18 Feb 2020, run &lt;code&gt;git pull&lt;/code&gt;. Besides adding a new &lt;code&gt;authentication&lt;/code&gt;
-branch, I added some Bootstrap compilation code to the &lt;code&gt;landing-page&lt;/code&gt; branch in
-place of using Bootstrap Magic. See &lt;a href=&quot;https://jacobobryant.com/post/2020/landing-pages/&quot;&gt;Landing
-Pages&lt;/a&gt;.&lt;/em&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Demo&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;(As always, you can also see what we&apos;ll be building at
 &lt;a href=&quot;https://cows.jacobobryant.com&quot;&gt;&lt;code&gt;cows.jacobobryant.com&lt;/code&gt;&lt;/a&gt;.)&lt;/p&gt;
@@ -56,9 +124,8 @@ not too much left to do for your own project. Copy over &lt;code&gt;task&lt;/cod
 the login and app pages in &lt;code&gt;src/cows/core.clj&lt;/code&gt;. When you&apos;re done, you could run
 &lt;code&gt;./task deploy&lt;/code&gt;, though for a Serious Project you&apos;d want to leave the mailing
 list signup form until later.&lt;/p&gt;
-&lt;p&gt;Next time, we&apos;ll add some simple React components to the app page using
-ClojureScript, Rum and Shadow CLJS. We might also get to some very basic CRUD
-(using Firestore) and state management.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://jacobobryant.com/post/2020/add-cljs/&quot;&gt;Next time&lt;/a&gt;, we&apos;ll add some simple React components to
+the app page using ClojureScript, Rum and Shadow CLJS.&lt;/p&gt;
 </content><category term="clojure"></category></entry><entry><title>Landing Pages With Clojure and Firebase</title><id>https://jacobobryant.com/post/2020/landing-pages/</id><link href="https://jacobobryant.com/post/2020/landing-pages/" /><updated>2020-02-11T00:00:00.000-07:00</updated><content type="html">&lt;p&gt;This tutorial will demonstrate a workflow for creating a landing page (with
 email signup form) for a new project. Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s Guide To
 Clojure&lt;/a&gt;. Prerequisites: &lt;a href=&quot;https://jacobobryant.com/post/2019/learn-clojure/&quot;&gt;First Steps With
