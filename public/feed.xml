@@ -1,4 +1,61 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-03-18T00:00:00.000-06:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>Stubbing out ClojureScript + React</title><id>https://jacobobryant.com/post/2020/add-cljs/</id><link href="https://jacobobryant.com/post/2020/add-cljs/" /><updated>2020-03-18T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;Today we&apos;re going to expand on our simple HTML + CSS website by adding in
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-03-30T00:00:00.000-06:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>How to edit S-expressions in Vim without plugins</title><id>https://jacobobryant.com/post/2020/editing-sexprs/</id><link href="https://jacobobryant.com/post/2020/editing-sexprs/" /><updated>2020-03-30T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;If you&apos;re a Vim user and learning Clojure or another lisp, you don&apos;t have to
+install any plugins right away (let alone switch editors) just to make editing
+S-expressions palatable. You can get by pretty well with just the built-in
+features.&lt;/p&gt;
+&lt;p&gt;It boils down mainly to two keys: &lt;code&gt;%&lt;/code&gt; and &lt;code&gt;=&lt;/code&gt;. &lt;code&gt;%&lt;/code&gt; will jump to a matching
+paren (or curly/square bracket). &lt;code&gt;=&lt;/code&gt; will re-indent a block of code. For
+example, consider this implementation of the Fibonacci sequence:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defn fib [n]
+  (if (#{0 1} n)
+    1
+    (+ (fib (- n 1)) (fib (- n 2)))))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Suppose we wanted to move the recursive &lt;code&gt;fib&lt;/code&gt; calls into a (lazy) let binding. With
+our cursor on the first line, we&apos;d hit &lt;code&gt;o&lt;/code&gt; and then add two lines:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defn fib [n]
+  (let [fib-1 (delay (fib (- n 1)))
+        fib-2 (delay (fib (- n 2)))]
+  (if (#{0 1} n)
+    1
+    (+ (fib (- n 1)) (fib (- n 2)))))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With our cursor at the end of the third line, we could finish editing by hitting this sequence of keys:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code&gt;0jw&lt;/code&gt;: move to opening paren of the &lt;code&gt;if&lt;/code&gt; form.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;=%&lt;/code&gt;: re-indent the &lt;code&gt;if&lt;/code&gt; form.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;jjWW&lt;/code&gt;:  move to the opening paren of the &lt;code&gt;(fib (- n 1))&lt;/code&gt; form.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;c%@fib-1&amp;lt;esc&amp;gt;&lt;/code&gt;: replace that form with &lt;code&gt;@fib-1&lt;/code&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Wc%@fib-2)&amp;lt;esc&amp;gt;&lt;/code&gt;: replace the second &lt;code&gt;fib&lt;/code&gt; form and add a closing paren for the &lt;code&gt;let&lt;/code&gt; form.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defn fib [n]
+  (let [fib-1 (delay (fib (- n 1)))
+        fib-2 (delay (fib (- n 2)))]
+    (if (#{0 1} n)
+      1
+      (+ @fib-1 @fib-2))))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;For another example, say we want to add an element to the end of the div in this hiccup form:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;[:div
+ [:p &amp;quot;I&apos;m sorry Dave&amp;quot;]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;With our cursor on the opening bracket of the &lt;code&gt;:div&lt;/code&gt; form, just hit &lt;code&gt;%i&lt;/code&gt; and then &lt;code&gt;&amp;lt;enter&amp;gt;[:p &amp;quot;I&apos;m afraid I can&apos;t do that&amp;quot;]&amp;lt;esc&amp;gt;&lt;/code&gt;:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;[:div
+ [:p &amp;quot;I&apos;m sorry Dave&amp;quot;]
+ [:p &amp;quot;I&apos;m afraid I can&apos;t do that&amp;quot;]]
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Another useful combination is &lt;code&gt;d%&lt;/code&gt;, which deletes the current form. I also
+sometimes like to use &lt;code&gt;v%&lt;/code&gt; to visually select a form before hitting &lt;code&gt;=&lt;/code&gt; to
+re-indent it. (And you can hit &lt;code&gt;==&lt;/code&gt; to re-indent just the current line.) In
+general, you&apos;ll find that editing S-expressions is quite natural once you&apos;ve
+committed &lt;code&gt;%&lt;/code&gt; to muscle memory.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;So you can edit S-expressions in plain Vim—but &lt;em&gt;should&lt;/em&gt; you?&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;If you&apos;re already in to Vim, sure. With the addition of just two plugins
+(&lt;a href=&quot;https://github.com/tpope/vim-fireplace&quot;&gt;vim-fireplace&lt;/a&gt; and &lt;a href=&quot;https://github.com/luochen1990/rainbow&quot;&gt;rainbow
+parens&lt;/a&gt;) and &lt;code&gt;let g:clojure_fuzzy_indent_patterns = [&apos;.*&apos;]&lt;/code&gt;, I&apos;ve found Vim to be a perfectly
+adequate editor for Clojure. You can always try out &lt;a href=&quot;https://juxt.pro/blog/posts/vim-1.html&quot;&gt;more
+plugins&lt;/a&gt;/&lt;a href=&quot;https://cursive-ide.com/&quot;&gt;cursive&lt;/a&gt;/&lt;a href=&quot;https://blog.jeaye.com/2015/10/24/emacs-vim/&quot;&gt;Emacs&lt;/a&gt;
+after you&apos;ve settled in.&lt;/p&gt;
+</content><category term="clojure"></category></entry><entry><title>Stubbing out ClojureScript + React</title><id>https://jacobobryant.com/post/2020/add-cljs/</id><link href="https://jacobobryant.com/post/2020/add-cljs/" /><updated>2020-03-18T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;Today we&apos;re going to expand on our simple HTML + CSS website by adding in
 ClojureScript and React (via Shadow CLJS and Rum). Part of &lt;a href=&quot;https://jacobobryant.com/post/2020/guide-to-clojure/&quot;&gt;The Solo Hacker&apos;s
 Guide To Clojure&lt;/a&gt;. Prerequisites:
 &lt;a href=&quot;https://jacobobryant.com/post/2020/authentication/&quot;&gt;Authentication&lt;/a&gt;.&lt;/p&gt;
