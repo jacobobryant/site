@@ -52,7 +52,7 @@ this purpose. [Email](mailto:a@jacobobryant.com) is good too.
 
 ##### Changelog
 
-You can [subscribe](https://tinyletter.com/jacobobryant) for notifications.
+You can [subscribe](https://findka.com/subscribe) for notifications.
 
  - 18 Feb 2020: Add [Authentication](/post/2020/authentication/). Revise
    [Landing Pages](/post/2020/landing-pages/): edit Bootstrap source directly
