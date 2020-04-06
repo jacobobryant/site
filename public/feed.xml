@@ -1,4 +1,193 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-03-30T00:00:00.000-06:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>How to edit S-expressions in Vim without plugins</title><id>https://jacobobryant.com/post/2020/editing-sexprs/</id><link href="https://jacobobryant.com/post/2020/editing-sexprs/" /><updated>2020-03-30T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;If you&apos;re a Vim user and learning Clojure or another lisp, you don&apos;t have to
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><feed xmlns="http://www.w3.org/2005/Atom"><title>Jacob O'Bryant</title><updated>2020-04-07T00:00:00.000-06:00</updated><id>https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml</id><link href="https://cdn.jsdelivr.net/gh/jacobobryant/site/public/feed.xml" rel="self" type="application/atom+xml" /><link href="https://jacobobryant.com" /><author><name>Jacob O'Bryant</name><uri>https://jacobobryant.com</uri></author><entry><title>A recommender system in 30 lines of Clojure</title><id>https://jacobobryant.com/post/2020/clj-rec/</id><link href="https://jacobobryant.com/post/2020/clj-rec/" /><updated>2020-04-07T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;I started doing music recommendation research about 4 years ago as an
+undergrad. After many iterations, that work has evolved into
+&lt;a href=&quot;https://findka.com&quot;&gt;Findka&lt;/a&gt;, a very simple cross-domain recommender system.
+I&apos;m going to show you Findka&apos;s algorithm code and explain how it works.&lt;/p&gt;
+&lt;p&gt;First, let me explain how Findka works from the end user&apos;s perspective. After
+signing up, you get a weekly email that has a list of 10 links. Right now
+they&apos;re mainly links to music, video games, books, etc., but they could be
+links to anything. You give each item a thumbs-up/thumbs-down rating, and eventually
+Findka learns what to recommend.&lt;/p&gt;
+&lt;p&gt;You can speed up the learning process by giving Findka links to stuff you
+already like. To make this convenient, there are search integrations for
+several content types:&lt;/p&gt;
+&lt;img src=&quot;https://findka.com/img/demo.gif&quot;&gt;
+&lt;p&gt;Findka picks new recommendations exclusively from links that have been
+added by other users. As of writing, there are 48 users (12 active), 326 links,
+and 257 ratings (48% of them positive). At this scale, Findka gets by
+just fine with a simple collaborative filtering algorithm that I wrote one
+afternoon. Each Friday, I log in to an admin console, load all the data into
+memory, run the algorithm, and then send the recommendations to the backend for
+emailing. (The algorithm is written in ClojureScript, so it&apos;s been compiled to
+JS).&lt;/p&gt;
+&lt;p&gt;And here it is:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defn cooccurrence [users]
+  (reduce (fn [cooc path]
+            (update-in cooc path (fnil inc 0)))
+    {}
+    (for [ratings users
+          pair ratings
+          other-pair ratings
+          :when (not= pair other-pair)]
+      (into [pair] other-pair))))
+
+(defn recommend [{:keys [cooc user-ratings score explore
+                         n exploit-ratio cutoff]
+                  :or {n 10, exploit-ratio 0.7, cutoff 0.5}}]
+  (let [exclude (set (keys user-ratings))
+        exploit (-&amp;gt;&amp;gt; user-ratings
+                  (map cooc)
+                  (apply merge-with #(merge-with + %1 %2))
+                  (remove (comp exclude first))
+                  (map #(update % 1 score))
+                  (sort-by second)
+                  reverse
+                  (take-while #(&amp;lt;= cutoff (second %)))
+                  (map first))
+        explore (remove exclude explore)]
+    (-&amp;gt;&amp;gt; exploit
+      (take (* exploit-ratio n))
+      (#(concat % explore))
+      distinct
+      (take n)
+      shuffle)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You can use it like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(let [alice {:a :like
+             :b :like
+             :c :dislike
+             :d :like
+             :e :like}
+      bob   {:a :like
+             :b :dislike
+             :c :dislike
+             :d :dislike
+             :e :like}
+      carol {:a :like
+             :b :dislike}
+      users [alice bob carol]
+      explore (distinct (mapcat keys users))
+      cooc (cooccurrence users)]
+  (recommend
+    {:n 2
+     :cooc cooc
+     :ratings carol
+     :score (fn [{:keys [like dislike]
+                  :or {like 0 dislike 0}}]
+              (/ (+ like 1) (+ like dislike 2)))
+     :explore explore}))
+; =&amp;gt; (:b :a)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Let&apos;s walk through all that.&lt;/p&gt;
+&lt;p&gt;First, we construct a co-occurrence matrix. For example:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(def cooc (cooccurrence [{:a :like
+                          :b :like
+                          :c :dislike}
+                         {:a :like
+                          :b :dislike}]))
+=&amp;gt; {[:a :like] {:b {:like 1, :dislike 1}, :c {:dislike 1}},
+    [:b :like] {:a {:like 1}, :c {:dislike 1}},
+    [:c :dislike] {:a {:like 1}, :b {:like 1}},
+    [:b :dislike] {:a {:like 1}}}
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This tells us e.g. that among users who like item &lt;code&gt;:b&lt;/code&gt;, one user likes &lt;code&gt;:a&lt;/code&gt; and
+one user dislikes &lt;code&gt;:c&lt;/code&gt; (in this case, it&apos;s the same user).
+After you construct the co-occurrence matrix, you can use &lt;code&gt;recommend&lt;/code&gt; to get
+recommendations for an individual user. It works like so:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(let [cutoff 0.5
+      ; Using values from above
+      carol ...
+      cooc ...]
+  (-&amp;gt;&amp;gt; carol
+
+    ; Get the slice of the co-occurrence matrix that applies to this user
+    (map cooc)
+    ; =&amp;gt; ({:b {:like 1, :dislike 2},
+    ;      :c {:dislike 2},
+    ;      :d {:like 1, :dislike 1},
+    ;      :e {:like 2}}
+    ;     {:a {:like 2}, :c {:dislike 1}, :d {:dislike 1}, :e {:like 1}})
+
+    ; Combine the slices
+    (apply merge-with #(merge-with + %1 %2))
+    ; =&amp;gt; {:b {:like 1, :dislike 2},
+    ;     :c {:dislike 3},
+    ;     :d {:like 1, :dislike 2},
+    ;     :e {:like 3},
+    ;     :a {:like 2}}
+
+    ; Take out any items the user has already rated
+    (remove (comp (set (keys carol)) first))
+    ; =&amp;gt; ([:c {:dislike 3}] [:d {:like 1, :dislike 2}] [:e {:like 3}])
+
+    ; Calculate the score for each candidate item
+    (map #(update % 1 score))
+    ; =&amp;gt; ([:c 1/5] [:d 2/5] [:e 4/5])
+
+    ; Sort by score
+    (sort-by second)
+    reverse
+    ; =&amp;gt; ([:e 4/5] [:d 2/5] [:c 1/5])
+
+    ; Don&apos;t recommend items that we think they won&apos;t like
+    (take-while #(&amp;lt;= cutoff (second %)))
+    (map first)))
+; =&amp;gt; (:e)
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;After that, we mix in a few random recommendations so that
+the system keeps learning instead of only recommending popular items.&lt;/p&gt;
+&lt;p&gt;Let&apos;s take a closer at the &lt;code&gt;score&lt;/code&gt; function. We can parameterize it to account for our level of confidence.&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(def alpha 1)
+(def beta 1)
+
+(defn score [{:keys [like dislike]
+              :or {like 0 dislike 0}}]
+  (/ (+ like alpha) (+ like dislike alpha beta)))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The ratio
+&lt;code&gt;(/ alpha (+ alpha beta))&lt;/code&gt; is what score we&apos;d give an item if we didn&apos;t know anything
+about it—in this case, 0.5. If you have
+some ratings, you could set this to the average rating for all items. The sum &lt;code&gt;(+ alpha beta)&lt;/code&gt;
+is the number of ratings we need before we start to trust the actual ratings more than the default rating.
+(You can search &amp;quot;beta distribution&amp;quot; to learn more about this.)&lt;/p&gt;
+&lt;p&gt;These parameters can help us deal with balancing
+&lt;em&gt;exploitation&lt;/em&gt; (recommending items for which we have a lot of data) and
+&lt;em&gt;exploration&lt;/em&gt; (recommending &amp;quot;cold start&amp;quot; items for which we don&apos;t have much data). For example, if
+we set alpha relatively high and beta relatively low, then cold start items will get an optimistically high rating. This
+gives us a natural balance, since items will start out with high ratings, and thus be recommended frequently,
+after which the bad items&apos; ratings will drop. I&apos;ve used this technique before in music recommendation, after
+learning about it from &lt;a href=&quot;https://arxiv.org/pdf/1311.6355.pdf&quot;&gt;this paper&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;On the other hand, if you&apos;re displaying a list of most popular items, you&apos;d want to instead set a low alpha and a high beta.
+This will ensure that items with a single positive rating don&apos;t score higher than items with hundreds of positive ratings
+and a few negative ratings. (I wish Amazon did this when you sort by average customer review.)&lt;/p&gt;
+&lt;p&gt;You could do lots of interesting things with the &lt;code&gt;score&lt;/code&gt; function, like handling content moderation. If someone reports an
+item, give it an &lt;code&gt;:explicit&lt;/code&gt; rating, then do something like this:&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;language-clojure&quot;&gt;(defn score [{:keys [like dislike explicit]
+              :or {like 0 dislike 0 explicit 0}}]
+  (/ (+ like alpha)
+    (+ like dislike alpha beta
+      (if current-user-doesnt-want-to-see-explicit-items
+        (* explicit 3)
+        0))))
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;So we simply treat an &lt;code&gt;:explicit&lt;/code&gt; rating equally to three &lt;code&gt;:dislike&lt;/code&gt; ratings. We can similarly incorporate &lt;code&gt;:click&lt;/code&gt;
+and &lt;code&gt;:view&lt;/code&gt; events.
+We could even turn our system into a hybrid recommender by integrating
+content-based information—if the current item is a podcast and the current user never clicks on podcasts,
+lower the score.&lt;/p&gt;
+&lt;p&gt;There you have it: everything you need to make your very own recommender system.
+Great for small data sets.
+Note that this only works with categorical ratings. If you had numerical ratings
+on a scale from 1 to 10, you could replace the co-occurrence matrix with a
+cosine similarity matrix (and update &lt;code&gt;recommend&lt;/code&gt; accordingly). Once your data set is large enough that you can&apos;t
+work with the entire matrix at once, you can look into matrix factorization techniques
+so that your recommender system can scale.&lt;/p&gt;
+&lt;p&gt;As an alternative to matrix factorization, you could use an algorithm that samples
+the matrix without ever constructing the whole thing. Before starting Findka, I made a &lt;a href=&quot;https://lagukan.com&quot;&gt;music player&lt;/a&gt;
+with a track-selection algorithm that does that. This method made it easy to incorporate new data—
+if you have a listening session in the morning, the music player can start using that data in the afternoon
+without having to recompute a model. I&apos;m planning to open-source that code in a while, so
+maybe this article will get a follow-up post.&lt;/p&gt;
+</content></entry><entry><title>How to edit S-expressions in Vim without plugins</title><id>https://jacobobryant.com/post/2020/editing-sexprs/</id><link href="https://jacobobryant.com/post/2020/editing-sexprs/" /><updated>2020-03-30T00:00:00.000-06:00</updated><content type="html">&lt;p&gt;If you&apos;re a Vim user and learning Clojure or another lisp, you don&apos;t have to
 install any plugins right away (let alone switch editors) just to make editing
 S-expressions palatable. You can get by pretty well with just the built-in
 features.&lt;/p&gt;
